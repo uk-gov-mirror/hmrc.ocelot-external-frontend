@@ -21,9 +21,9 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 class StanzaUnit extends UnitSpec {
 
-  val instructionJson = Json.parse("""{"id":"start", "type":"InstructionStanza", "next":["end"], "text": 0}""").as[JsObject]
-  val endJson = Json.parse("""{"id":"end", "type":"EndStanza"}""").as[JsObject]
-
+  private val instructionJson = Json.parse("""{"id":"start", "type":"InstructionStanza", "next":["end"], "text": 0}""").as[JsObject]
+  private val endJson = Json.parse("""{"id":"end", "type":"EndStanza"}""").as[JsObject]
+  private val questionJson = Json.parse("""{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]}""").as[JsObject]
 
   "An Instruction Stanza" should {
     "Know it's text, next" in {
@@ -32,13 +32,23 @@ class StanzaUnit extends UnitSpec {
       assert(stanza.kind == "instruction")
       assert(stanza.text == 0)
       assert(stanza.next.length == 1)
-      assert(stanza.next(0) == "end")
+      assert(stanza.next.head == "end")
     }
   }
 
   "An End stanza" should {
     "Parse" in {
       new EndStanza(endJson)
+    }
+  }
+
+  "A Question stanza" should {
+    "know about answers" in {
+      val stanza = new QuestionStanza(questionJson)
+      assert(stanza.kind == "question")
+      assert(stanza.next.length == 2)
+      assert(stanza.answers.length == 2)
+      assert(stanza.answer(0) == 2)
     }
   }
 

@@ -19,7 +19,7 @@ package uk.gov.hmrc.ocelotexternalfrontend
 import java.util
 
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
-import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, Stanza}
+import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, QuestionStanza, Stanza}
 
 class OcelotProcess(json: JsObject) {
 
@@ -30,6 +30,7 @@ class OcelotProcess(json: JsObject) {
     flow.put(key._1, (key._2 \ "type").as[String] match {
       case "InstructionStanza" => new InstructionStanza(key._2.as[JsObject])
       case "EndStanza" => new EndStanza(key._2.as[JsObject])
+      case "QuestionStanza" => new QuestionStanza(key._2.as[JsObject])
       case _ => throw new IllegalArgumentException("Unknown stanza type")
     })
   }

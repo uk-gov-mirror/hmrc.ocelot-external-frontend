@@ -35,3 +35,15 @@ class InstructionStanza(json: JsObject) extends Stanza(json) {
   val text: Int = (json \ "text").as[Int]
 
 }
+
+class QuestionStanza(json: JsObject) extends Stanza(json) {
+
+  val kind = "question"
+  val next : Seq[String] = (json \ "next").as[List[String]]
+  val text: Int = (json \ "text").as[Int]
+
+  val answers : Seq[Int] = (json \ "answers").as[List[Int]]
+
+  def answer(id : Int) = answers(id)
+}
+

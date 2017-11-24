@@ -25,10 +25,13 @@ class ProcessParserSpec extends UnitSpec {
         {
          "meta":{"id":"oct90001"},
          "flow":{
-           "start":{"id":"start","type":"InstructionStanza","text":0,"next":["end"]},
+           "start":{"type":"InstructionStanza","text":0,"next":["1"]},
+           "1":{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]},
+           "2":{"type":"InstructionStanza","text":4,"next":["end"]},
+           "3":{"type":"InstructionStanza","text":5,"next":["end"]},
            "end":{"type":"EndStanza"}
          },
-         "phrases":["World's shortest process"]
+         "phrases":["Test process", "Is this a question", "Yes", "No", ["Internal", "External"], "You said no"]
         }
         """.stripMargin
 
@@ -40,15 +43,16 @@ class ProcessParserSpec extends UnitSpec {
     }
 
     "have a bunch of stanzas" in {
-      assert(process.stanzas.size == 2)
+      assert(process.stanzas.size == 5)
 
       assert(process.stanza("start").kind == "instruction")
       assert(process.stanza("end").kind == "end")
     }
 
     "have a phrasebank" in {
-      assert(process.phrases.length == 1)
-      assert(process.phrase(0) == "World's shortest process")
+      assert(process.phrases.length == 6)
+      assert(process.phrase(0) == "Test process")
+      assert(process.phrase(4) == "Internal")
     }
   }
 }
