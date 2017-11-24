@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
-@(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+package uk.gov.hmrc.ocelotexternalfrontend.types
 
-@contentHeader = {
-  <h1>@heading</h1>
+import play.api.libs.json.{JsArray, JsObject}
+
+abstract class Stanza(json: JsObject) {
+
+  val kind : String
 }
 
-@mainContent = {
-  <p>@message</p>
+class EndStanza(json: JsObject) extends Stanza(json) {
+
+  val kind = "end"
 }
 
-@govuk_wrapper(appConfig = appConfig, title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent)
+class InstructionStanza(json: JsObject) extends Stanza(json) {
+
+  val kind = "instruction"
+  val next : Seq[String] = (json \ "next").as[List[String]]
+  val text: Int = (json \ "text").as[Int]
+
+}
