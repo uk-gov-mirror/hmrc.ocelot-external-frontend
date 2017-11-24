@@ -23,6 +23,7 @@ import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, Q
 
 class OcelotProcess(json: JsObject) {
 
+  val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
 
   val flow: util.HashMap[String, Stanza] = new util.HashMap[String, Stanza]()
@@ -38,18 +39,20 @@ class OcelotProcess(json: JsObject) {
   val phrases: Seq[Seq[String]] = {
     var result = Vector[Vector[String]]()
 
-    (json \ "phrases").as[List[JsValue]].foreach{v => {
+    (json \ "phrases").as[List[JsValue]].foreach { v => {
       v match {
-        case s: JsString => result =  result :+ Vector[String](v.as[String])
+        case s: JsString => result = result :+ Vector[String](v.as[String])
         case a: JsArray => result = result :+ v.as[Vector[String]]
         case _: Any => throw new IllegalArgumentException("Unexpected json type")
       }
-    }}
+    }
+    }
     result
   }
 
   def phrase(id: Int): String = phrases(id)(0)
 
   def stanza(id: String): Stanza = flow.get(id)
+
   def stanzas: util.HashMap[String, Stanza] = flow
 }
