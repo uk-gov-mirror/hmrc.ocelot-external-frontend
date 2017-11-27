@@ -67,6 +67,17 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val html = Jsoup.parse(contentAsString(result))
       assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/ocelot/")
     }
+
+    "Give radios the right values" in {
+      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val inputs = html.select("input[type=radio]")
+      assert(inputs.size() == 2)
+      assert(inputs.get(0).attr("value") == "0")
+      assert(inputs.get(1).attr("value") == "1")
+
+    }
   }
 
   "GET /0" should {

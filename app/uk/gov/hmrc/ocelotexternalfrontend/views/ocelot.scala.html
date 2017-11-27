@@ -29,11 +29,11 @@
         }</p>
         @helper.form(action = routes.Ocelot.ocelot(path, None)) {
             <input type="hidden" value="@path" name="path">
-        @for(a <- stanza.answers) {
+        @for((answerId, i) <- stanza.answers.zipWithIndex) {
             <label>
-                <input type="radio" name="q" value="@a">
+                <input type='radio' name="q" value="@i">
                 <span>@{
-                    process.getPhrase(a)
+                    process.getPhrase(answerId)
                 }</span>
             </label>
         }
