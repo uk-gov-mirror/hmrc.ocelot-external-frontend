@@ -55,7 +55,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
       }
 
       if (q.isDefined) {
-        targetPath += "/" + q
+        targetPath += "/" + q.get
       }
 
       Future.successful(Ok(views.html.ocelot(process, targetPath)))

@@ -40,45 +40,55 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
   "GET /" should {
 
     "return 200" in {
-      val result = controller.ocelot("/").apply(fakeRequest)
-
+      val result = controller.ocelot("/", None).apply(fakeRequest)
       status(result) shouldBe Status.OK
     }
 
     "return HTML" in {
-      val result = controller.ocelot("/").apply(fakeRequest)
-
+      val result = controller.ocelot("/", None).apply(fakeRequest)
       contentType(result) shouldBe Some("text/html")
       charset(result) shouldBe Some("utf-8")
     }
 
     "Show the title" in {
-      val result = controller.ocelot("/").apply(fakeRequest)
-
+      val result = controller.ocelot("/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-
       assert(html.getElementsByTag("h1").text() == "Test process")
     }
 
-    "No path" in {
-      val result = controller.ocelotBase().apply(fakeRequest)
-
+    "show an instruction" in {
+      val result = controller.ocelot("/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-
       assert(html.getElementsByClass("instruction").text() == "Test process")
+    }
 
+    "show a form" in {
+      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
       assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/ocelot/")
     }
+  }
 
+  "GET /0" should {
 
-    "left path" in {
-      val result = controller.ocelot("/0").apply(fakeRequest)
-
+    "return an end" in {
+      val result = controller.ocelot("/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-
       assert(html.getElementsByClass("instruction").text() == "Internal")
       assert(html.getElementsByTag("form").size() == 0)
+      assert(html.getElementsByClass("terminal").size() == 1)
     }
-
   }
+
+  "GET /?q=0" should {
+
+    "render the same as /0" in {
+      val result = controller.ocelot("/", Option("0")).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+      assert(html.getElementsByClass("instruction").text() == "Internal")
+      assert(html.getElementsByTag("form").size() == 0)
+      assert(html.getElementsByClass("terminal").size() == 1)
+    }
+  }
+
 }

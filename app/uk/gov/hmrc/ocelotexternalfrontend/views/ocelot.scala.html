@@ -27,7 +27,7 @@
         <p>@{
             process.getStanzaText(stanza)
         }</p>
-        @helper.form(action = routes.Ocelot.ocelot(path)) {
+        @helper.form(action = routes.Ocelot.ocelot(path, None)) {
             <input type="hidden" value="@path" name="path">
         @for(a <- stanza.answers) {
             <label>
@@ -49,7 +49,7 @@
 }
 
 @end(stanza: EndStanza) = {
-    <p>Have we solved your problem?</p>
+    <p class="terminal">Have we solved your problem?</p>
 }
 
 @unknown = {
