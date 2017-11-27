@@ -24,17 +24,13 @@
 
 @question(stanza: QuestionStanza) = {
     <div class="question">
-        <p>@{
-            process.getStanzaText(stanza)
-        }</p>
+        <p class="prompt">@process.getStanzaText(stanza)</p>
         @helper.form(action = routes.Ocelot.ocelot(path, None)) {
             <input type="hidden" value="@path" name="path">
         @for((answerId, i) <- stanza.answers.zipWithIndex) {
             <label>
                 <input type='radio' name="q" value="@i">
-                <span>@{
-                    process.getPhrase(answerId)
-                }</span>
+                @process.getPhrase(answerId)
             </label>
         }
             <button type="submit">Next</button>

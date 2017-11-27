@@ -19,7 +19,7 @@ package uk.gov.hmrc.ocelotexternalfrontend
 import java.util
 
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
-import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, QuestionStanza, Stanza}
+import uk.gov.hmrc.ocelotexternalfrontend.types._
 
 import scala.collection.mutable.ListBuffer
 
@@ -45,11 +45,13 @@ class OcelotProcess(json: JsObject) {
   (json \ "flow").as[JsObject].fields.foreach { key => {
     val id = key._1
     val raw = key._2
-    flow.put(id, (raw \ "type").as[String] match {
+    val kind = (raw \ "type").as[String]
+    flow.put(id, kind match {
       case "InstructionStanza" => new InstructionStanza(id, raw.as[JsObject])
       case "EndStanza" => new EndStanza(id, raw.as[JsObject])
       case "QuestionStanza" => new QuestionStanza(id, raw.as[JsObject])
-      case _ => throw new IllegalArgumentException("Unknown stanza type")
+      case "ImportantStanza" => new CalloutStanza(id, raw.as[JsObject])
+      case _ => throw new IllegalArgumentException("Unknown stanza type: " + kind)
     })
   }
   }
@@ -65,20 +67,33 @@ class OcelotProcess(json: JsObject) {
     while (true) {
       result += stanza
       if (stanza.next.isEmpty) {
+        // If we've got nowhere left to go, then return what we've got
         return result
       } else if (stanza.next.length == 1) {
+        // Exactly one route out. Get the next stanza
         stanza = getStanza(stanza.next.head)
       } else {
         if (index < parts.length) {
-          stanza = getStanza(stanza.next(parts(index)))
-          result.clear()
-          index += 1
+          // Still working through the input from the user
+
+          if (parts(index) >= 0  && parts(index) < stanza.next.length) {
+            // Valid answer. Get the next stanza
+            stanza = getStanza(stanza.next(parts(index)))
+            result.clear()
+            index += 1
+          } else {
+            // Invalid answer. Probably someone trying to be naughty
+            // TODO: Log as interesting, but not dangerous
+            result.clear()
+            result += getStanza("end")
+            return result
+          }
         } else {
           return result
         }
       }
     }
-    throw new IllegalStateException("Shoudn't be able to get here")
+    throw new IllegalStateException("Should not be able to get here")
   }
 
   def getStanza(id: String): Stanza = flow.get(id)
@@ -88,4 +103,5 @@ class OcelotProcess(json: JsObject) {
   def getPhrase(id: Int): String = phrases(id).head
 
   def getAllStanzas: util.HashMap[String, Stanza] = flow
+
 }

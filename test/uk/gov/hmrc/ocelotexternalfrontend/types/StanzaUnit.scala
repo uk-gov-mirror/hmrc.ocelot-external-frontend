@@ -24,6 +24,7 @@ class StanzaUnit extends UnitSpec {
   private val instructionJson = Json.parse("""{"id":"start", "type":"InstructionStanza", "next":["end"], "text": 0}""").as[JsObject]
   private val endJson = Json.parse("""{"id":"end", "type":"EndStanza"}""").as[JsObject]
   private val questionJson = Json.parse("""{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]}""").as[JsObject]
+  private val importantJson = Json.parse("""{"type":"ImportantStanza","text":1,"next":["1"]}""").as[JsObject]
 
   "An Instruction Stanza" should {
     "Know it's text, next" in {
@@ -50,5 +51,13 @@ class StanzaUnit extends UnitSpec {
       assert(stanza.answers.length == 2)
       assert(stanza.answer(0) == 2)
     }
+  }
+
+  "An instruction stanza" should {
+      "really be a callout" in {
+        val stanza = new CalloutStanza("test", importantJson)
+        assert(stanza.kind == "callout")
+        assert(stanza.subkind == "important")
+      }
   }
 }

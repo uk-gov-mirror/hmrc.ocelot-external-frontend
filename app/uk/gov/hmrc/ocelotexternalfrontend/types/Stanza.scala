@@ -51,3 +51,10 @@ class QuestionStanza(id: String, json: JsObject) extends Stanza(id, json) {
   def answer(id: Int) = answers(id)
 }
 
+class CalloutStanza(id: String, json: JsObject) extends InstructionStanza(id, json) {
+  override val kind = "callout"
+  val subkind: String = {
+    val t = (json \ "type").as[String]
+    t.substring(0, t.length - "Stanza".length).toLowerCase
+  }
+}

@@ -37,7 +37,7 @@ class OcelotProcessSpec extends UnitSpec {
 
   "A Parser" should {
 
-    val process = new ProcessParser().parse(simpleProcess)
+    val process = new StringProcessSource().parse(simpleProcess)
     "know it's id" in {
       assert(process.id == "oct90001")
     }

@@ -21,7 +21,7 @@ import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Action
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
-import uk.gov.hmrc.ocelotexternalfrontend.{ProcessParser, views}
+import uk.gov.hmrc.ocelotexternalfrontend.{InputStreamProcessSource, StringProcessSource, views}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
@@ -47,7 +47,8 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
 
   def ocelot(path: String, q: Option[String]) = Action.async {
     implicit request => {
-      val process = new ProcessParser().parse(simpleProcess)
+     // val process = new StringProcessSource().parse(simpleProcess)
+      val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/oct90001.json"))
       var targetPath = path
 
       if (targetPath == "/") {

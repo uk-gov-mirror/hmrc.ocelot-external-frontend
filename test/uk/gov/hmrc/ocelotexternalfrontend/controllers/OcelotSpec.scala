@@ -53,13 +53,13 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     "Show the title" in {
       val result = controller.ocelot("/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByTag("h1").text() == "Test process")
+      assert(html.getElementsByTag("h1").text() == "Customer wants to make a cup of tea")
     }
 
-    "show an instruction" in {
+    "show a question" in {
       val result = controller.ocelot("/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByClass("instruction").text() == "Test process")
+      assert(html.select(".question .prompt").text() == "Ask the customer if they have a tea bag")
     }
 
     "show a form" in {
@@ -77,28 +77,54 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       assert(inputs.get(0).attr("value") == "0")
       assert(inputs.get(1).attr("value") == "1")
 
+      val labels = html.select(".question label")
+      assert(labels.size() == 2)
+      assert(labels.get(0).text() == "Yes - they do have a tea bag")
+      assert(labels.get(1).text() == "No - they do not have a tea bag")
     }
   }
 
   "GET /0" should {
-
-    "return an end" in {
+    "render another question" in {
       val result = controller.ocelot("/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByClass("instruction").text() == "Internal")
-      assert(html.getElementsByTag("form").size() == 0)
-      assert(html.getElementsByClass("terminal").size() == 1)
+
+      assert(html.select(".question .prompt").text() == "Ask the customer if they have a cup")
     }
   }
 
   "GET /?q=0" should {
 
     "render the same as /0" in {
-      val result = controller.ocelot("/", Option("0")).apply(fakeRequest)
+      val result = controller.ocelot("/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByClass("instruction").text() == "Internal")
-      assert(html.getElementsByTag("form").size() == 0)
-      assert(html.getElementsByClass("terminal").size() == 1)
+
+      assert(html.select(".question .prompt") .text() == "Ask the customer if they have a cup")
+    }
+  }
+
+  "GET /1" should {
+    "end the process" in {
+
+      val result = controller.ocelot("/1", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val instructions = html.select(".instruction")
+      assert(instructions.size() == 2)
+
+      val terminal = html.select(".terminal")
+      assert(terminal.size() == 1)
+    }
+  }
+
+  "GET /2" should {
+    "fail gracefully" in {
+      val result = controller.ocelot("/2", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val terminal = html.select(".terminal")
+      assert(terminal.size() == 1)
+
     }
   }
 
