@@ -43,7 +43,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
         }
         """.stripMargin
 
-  def ocelotBase = ocelot("/", None)
+  def ocelotBase(q: Option[String]) = ocelot("/", q)
 
   def ocelot(path: String, q: Option[String]) = Action.async {
     implicit request => {
