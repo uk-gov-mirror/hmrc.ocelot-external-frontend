@@ -60,12 +60,21 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       assert(html.getElementsByTag("h1").text() == "Test process")
     }
 
-    "Show text" in {
-      val result = controller.ocelot("/").apply(fakeRequest)
+    "No path" in {
+      val result = controller.ocelotBase().apply(fakeRequest)
 
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.getElementsByClass("instruction").text() == "Test process")
+    }
+
+
+    "left path" in {
+      val result = controller.ocelot("/0").apply(fakeRequest)
+
+      val html = Jsoup.parse(contentAsString(result))
+
+      assert(html.getElementsByClass("instruction").text() == "Internal")
     }
 
   }

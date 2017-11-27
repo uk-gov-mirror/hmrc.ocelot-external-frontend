@@ -36,7 +36,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
     }
   }
 
-
+  def ocelotBase = ocelot("/")
 
   private val simpleProcess =
     """
