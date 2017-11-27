@@ -18,12 +18,12 @@ package uk.gov.hmrc.ocelotexternalfrontend
 
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ProcessParserSpec extends UnitSpec {
+class OcelotProcessSpec extends UnitSpec {
 
   private val simpleProcess =
     """
         {
-         "meta":{"id":"oct90001"},
+         "meta":{"id":"oct90001", "title":"Test process"},
          "flow":{
            "start":{"type":"InstructionStanza","text":0,"next":["1"]},
            "1":{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]},
@@ -43,16 +43,48 @@ class ProcessParserSpec extends UnitSpec {
     }
 
     "have a bunch of stanzas" in {
-      assert(process.stanzas.size == 5)
+      assert(process.getAllStanzas.size == 5)
 
-      assert(process.stanza("start").kind == "instruction")
-      assert(process.stanza("end").kind == "end")
+      assert(process.getStanza("start").kind == "instruction")
+      assert(process.getStanza("end").kind == "end")
     }
 
     "have a phrasebank" in {
       assert(process.phrases.length == 6)
-      assert(process.phrase(0) == "Test process")
-      assert(process.phrase(4) == "Internal")
+      assert(process.getPhrase(0) == "Test process")
+      assert(process.getPhrase(4) == "Internal")
+    }
+
+    "Get stanzas for a path" in {
+      val path = "/"
+      val stanzas = process.stanzasForPath(path)
+
+      assert(stanzas.size == 2)
+      assert(stanzas(0).id == "start")
+      assert(stanzas(1).id == "1")
+    }
+
+    "Get stanzas for a longer path (left)" in {
+      val path = "/0"
+      val stanzas = process.stanzasForPath(path)
+
+      assert(stanzas.size == 2)
+      assert(stanzas(0).id == "2")
+      assert(stanzas(1).id == "end")
+    }
+
+    "Get stanzas for a longer path (right)" in {
+      val path = "/1"
+      val stanzas = process.stanzasForPath(path)
+
+      assert(stanzas.size == 2)
+      assert(stanzas(0).id == "3")
+      assert(stanzas(1).id == "end")
+    }
+
+    "Get text for a stanza" in {
+      var stanza = process.getStanza("start")
+      assert(process.getStanzaText(stanza) == "Test process")
     }
   }
 }

@@ -21,28 +21,19 @@ import java.util
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
 import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, QuestionStanza, Stanza}
 
-class OcelotProcess(json: JsObject) {
+import scala.collection.mutable.ListBuffer
 
+class OcelotProcess(json: JsObject) {
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
-
   val flow: util.HashMap[String, Stanza] = new util.HashMap[String, Stanza]()
-  (json \ "flow").as[JsObject].fields.foreach { key =>
-    flow.put(key._1, (key._2 \ "type").as[String] match {
-      case "InstructionStanza" => new InstructionStanza(key._2.as[JsObject])
-      case "EndStanza" => new EndStanza(key._2.as[JsObject])
-      case "QuestionStanza" => new QuestionStanza(key._2.as[JsObject])
-      case _ => throw new IllegalArgumentException("Unknown stanza type")
-    })
-  }
-
   val phrases: Seq[Seq[String]] = {
     var result = Vector[Vector[String]]()
 
     (json \ "phrases").as[List[JsValue]].foreach { v => {
       v match {
-        case s: JsString => result = result :+ Vector[String](v.as[String])
-        case a: JsArray => result = result :+ v.as[Vector[String]]
+        case _: JsString => result = result :+ Vector[String](v.as[String])
+        case _: JsArray => result = result :+ v.as[Vector[String]]
         case _: Any => throw new IllegalArgumentException("Unexpected json type")
       }
     }
@@ -50,9 +41,51 @@ class OcelotProcess(json: JsObject) {
     result
   }
 
-  def phrase(id: Int): String = phrases(id)(0)
+  // Parse the flow into a bunch of Stanza types
+  (json \ "flow").as[JsObject].fields.foreach { key => {
+    val id = key._1
+    val raw = key._2
+    flow.put(id, (raw \ "type").as[String] match {
+      case "InstructionStanza" => new InstructionStanza(id, raw.as[JsObject])
+      case "EndStanza" => new EndStanza(id, raw.as[JsObject])
+      case "QuestionStanza" => new QuestionStanza(id, raw.as[JsObject])
+      case _ => throw new IllegalArgumentException("Unknown stanza type")
+    })
+  }
+  }
 
-  def stanza(id: String): Stanza = flow.get(id)
+  def stanzasForPath(path: String): Seq[Stanza] = {
+    val parts = path.split("/").filter(s => try { s.toInt; true } catch { case _: Any => false }).map(s => s.toInt)
+    var index = 0
 
-  def stanzas: util.HashMap[String, Stanza] = flow
+    var result = ListBuffer[Stanza]()
+
+    var stanza = getStanza("start")
+
+    while (true) {
+      result += stanza
+      if (stanza.next.isEmpty) {
+        return result
+      } else if (stanza.next.length == 1) {
+        stanza = getStanza(stanza.next.head)
+      } else {
+        if (index < parts.length) {
+          stanza = getStanza(stanza.next(parts(index)))
+          result.clear()
+          index += 1
+        } else {
+          return result
+        }
+      }
+    }
+    throw new IllegalStateException("Shoudn't be able to get here")
+  }
+
+  def getStanza(id: String): Stanza = flow.get(id)
+
+  def getStanzaText(stanza: Stanza): String = getPhrase(stanza.text)
+
+  def getPhrase(id: Int): String = phrases(id).head
+
+  def getAllStanzas: util.HashMap[String, Stanza] = flow
 }

@@ -16,34 +16,38 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend.types
 
-import play.api.libs.json.{JsArray, JsObject}
+import play.api.libs.json.JsObject
 
-abstract class Stanza(json: JsObject) {
+abstract class Stanza(idStr: String, json: JsObject) {
+  val id: String = idStr
+  val text: Int = -1
+  val kind: String
+  val next: Seq[String] = List[String]()
+  def isQuestion: Boolean = false
 
-  val kind : String
+  def isTerminal: Boolean = next.isEmpty
 }
 
-class EndStanza(json: JsObject) extends Stanza(json) {
-
+class EndStanza(id: String, json: JsObject) extends Stanza(id, json) {
+  override val isTerminal = true
   val kind = "end"
 }
 
-class InstructionStanza(json: JsObject) extends Stanza(json) {
+class InstructionStanza(id: String, json: JsObject) extends Stanza(id, json) {
 
+  override val text: Int = (json \ "text").as[Int]
   val kind = "instruction"
-  val next : Seq[String] = (json \ "next").as[List[String]]
-  val text: Int = (json \ "text").as[Int]
+  override val next: Seq[String] = (json \ "next").as[List[String]]
 
 }
 
-class QuestionStanza(json: JsObject) extends Stanza(json) {
-
+class QuestionStanza(id: String, json: JsObject) extends Stanza(id, json) {
+  override val isQuestion: Boolean = true
+  override val text: Int = (json \ "text").as[Int]
   val kind = "question"
-  val next : Seq[String] = (json \ "next").as[List[String]]
-  val text: Int = (json \ "text").as[Int]
+  override val next: Seq[String] = (json \ "next").as[List[String]]
+  val answers: Seq[Int] = (json \ "answers").as[List[Int]]
 
-  val answers : Seq[Int] = (json \ "answers").as[List[Int]]
-
-  def answer(id : Int) = answers(id)
+  def answer(id: Int) = answers(id)
 }
 

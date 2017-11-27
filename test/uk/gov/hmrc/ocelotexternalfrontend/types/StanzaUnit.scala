@@ -27,7 +27,7 @@ class StanzaUnit extends UnitSpec {
 
   "An Instruction Stanza" should {
     "Know it's text, next" in {
-      val stanza = new InstructionStanza(instructionJson)
+      val stanza = new InstructionStanza("test", instructionJson)
 
       assert(stanza.kind == "instruction")
       assert(stanza.text == 0)
@@ -38,18 +38,17 @@ class StanzaUnit extends UnitSpec {
 
   "An End stanza" should {
     "Parse" in {
-      new EndStanza(endJson)
+      new EndStanza("test", endJson)
     }
   }
 
   "A Question stanza" should {
     "know about answers" in {
-      val stanza = new QuestionStanza(questionJson)
+      val stanza = new QuestionStanza("test", questionJson)
       assert(stanza.kind == "question")
       assert(stanza.next.length == 2)
       assert(stanza.answers.length == 2)
       assert(stanza.answer(0) == 2)
     }
   }
-
 }

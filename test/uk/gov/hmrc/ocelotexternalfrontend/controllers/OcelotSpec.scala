@@ -40,24 +40,32 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
   "GET /" should {
 
     "return 200" in {
-      val result = controller.ocelot(fakeRequest)
+      val result = controller.ocelot("/").apply(fakeRequest)
 
       status(result) shouldBe Status.OK
     }
 
     "return HTML" in {
-      val result = controller.ocelot(fakeRequest)
+      val result = controller.ocelot("/").apply(fakeRequest)
 
       contentType(result) shouldBe Some("text/html")
       charset(result) shouldBe Some("utf-8")
     }
 
-    "Say hello" in {
-      val result = controller.ocelot(fakeRequest)
+    "Show the title" in {
+      val result = controller.ocelot("/").apply(fakeRequest)
 
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.getElementsByTag("h1").text() == "Test process")
+    }
+
+    "Show text" in {
+      val result = controller.ocelot("/").apply(fakeRequest)
+
+      val html = Jsoup.parse(contentAsString(result))
+
+      assert(html.getElementsByClass("instruction").text() == "Test process")
     }
 
   }

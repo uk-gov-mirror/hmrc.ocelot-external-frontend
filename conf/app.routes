@@ -1,8 +1,8 @@
 # microservice specific routes
 
-GET        /hello-world        @uk.gov.hmrc.ocelotexternalfrontend.controllers.HelloWorld.helloWorld
+GET        /hello-world         @uk.gov.hmrc.ocelotexternalfrontend.controllers.HelloWorld.helloWorld
 
-GET        /ocelot             @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot
 
+GET        /ocelot/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(path)
 
 
