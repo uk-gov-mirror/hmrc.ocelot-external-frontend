@@ -66,6 +66,8 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.getElementsByClass("instruction").text() == "Test process")
+
+      assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/ocelot/")
     }
 
 
@@ -75,6 +77,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.getElementsByClass("instruction").text() == "Internal")
+      assert(html.getElementsByTag("form").size() == 0)
     }
 
   }

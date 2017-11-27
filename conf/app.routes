@@ -3,4 +3,4 @@
 GET        /hello-world         @uk.gov.hmrc.ocelotexternalfrontend.controllers.HelloWorld.helloWorld
 
 GET        /ocelot              @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelotBase
-GET        /ocelot/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(path)
+GET        /ocelot/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(path, q: Option[String])

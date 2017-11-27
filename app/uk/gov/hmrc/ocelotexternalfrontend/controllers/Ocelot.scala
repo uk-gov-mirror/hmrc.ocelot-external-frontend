@@ -28,16 +28,6 @@ import scala.concurrent.Future
 
 class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: AppConfig) extends FrontendController with I18nSupport {
 
-  def ocelot(path: String) = Action.async {
-    implicit request => {
-      val process = new ProcessParser().parse(simpleProcess)
-
-      Future.successful(Ok(views.html.ocelot(process, path)))
-    }
-  }
-
-  def ocelotBase = ocelot("/")
-
   private val simpleProcess =
     """
         {
@@ -52,6 +42,25 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
          "phrases":["Test process", "Is this a question", "Yes", "No", ["Internal", "External"], "You said no"]
         }
         """.stripMargin
+
+  def ocelotBase = ocelot("/", None)
+
+  def ocelot(path: String, q: Option[String]) = Action.async {
+    implicit request => {
+      val process = new ProcessParser().parse(simpleProcess)
+      var targetPath = path
+
+      if (targetPath == "/") {
+        targetPath = ""
+      }
+
+      if (q.isDefined) {
+        targetPath += "/" + q
+      }
+
+      Future.successful(Ok(views.html.ocelot(process, targetPath)))
+    }
+  }
 
 
 }
