@@ -16,32 +16,47 @@
 
 @import uk.gov.hmrc.ocelotexternalfrontend.OcelotProcess
 @import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
-@import uk.gov.hmrc.ocelotexternalfrontend.types.{InstructionStanza, QuestionStanza, Stanza}
 @import uk.gov.hmrc.ocelotexternalfrontend.controllers.routes
+@import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, QuestionStanza, Stanza}
 
-@import uk.gov.hmrc.ocelotexternalfrontend.types.EndStanza
+@import uk.gov.hmrc.ocelotexternalfrontend.types.CalloutStanza
 @(process: OcelotProcess, path: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @question(stanza: QuestionStanza) = {
-    <div class="question">
-        <p class="prompt">@process.getStanzaText(stanza)</p>
-        @helper.form(action = routes.Ocelot.ocelot(path, None)) {
-            <input type="hidden" value="@path" name="path">
-        @for((answerId, i) <- stanza.answers.zipWithIndex) {
-            <label>
-                <input type='radio' name="q" value="@i">
-                @process.getPhrase(answerId)
-            </label>
-        }
-            <button type="submit">Next</button>
-        }
-    </div>
+    @helper.form(action = routes.Ocelot.ocelot(path, None)) {
+        <div class="question form-group">
+            <fieldset class="inline">
+                <legend>
+                    <h1 class="heading-medium prompt">
+                    @process.getStanzaText(stanza)
+                    </h1>
+                </legend>
+
+                @for((answerId, i) <- stanza.answers.zipWithIndex) {
+                    <div class="multiple-choice">
+                        <input type='radio' name="q" value="@i" id="q-@i">
+
+                        <label for="q-@i">
+                        @process.getPhrase(answerId)
+                        </label>
+                    </div>
+                }
+            </fieldset>
+        </div>
+
+        <input class="button" type="submit" value="Next">
+    }
+
 }
 
 @instruction(stanza: InstructionStanza) = {
-    <p class="instruction">@{
-        process.getStanzaText(stanza)
-    }</p>
+    <p class="instruction">@process.getStanzaText(stanza)</p>
+}
+
+@callout(stanza: CalloutStanza) = {
+    <div class="panel panel-border-wide">
+        <p>@process.getStanzaText(stanza)</p>
+    </div>
 }
 
 @end(stanza: EndStanza) = {
@@ -54,6 +69,7 @@
 
 @drawStanza(stanza: Stanza) = @{
     stanza match {
+        case _: CalloutStanza => callout(stanza.asInstanceOf[CalloutStanza])
         case _: InstructionStanza => instruction(stanza.asInstanceOf[InstructionStanza])
         case _: QuestionStanza => question(stanza.asInstanceOf[QuestionStanza])
         case _: EndStanza => end(stanza.asInstanceOf[EndStanza])
@@ -61,10 +77,19 @@
     }
 }
 
-@main_template(title = "Ocelot - Not ready for prime time", bodyClasses = None) {
-    <h1>@process.title</h1>
+@main_template(title = "Ocelot", bodyClasses = None) {
+    <div class="phase-banner">
+        <p>
+            <strong class="phase-tag">ALPHA</strong>
+            <span>This is a new service - your <a href="#">feedback</a> will help us to improve it.</span>
+        </p>
+    </div>
+
+    <h2 class="heading-large page-title">@process.title</h2>
 
     @for(stanza <- process.stanzasForPath(path)) {
         @drawStanza(stanza)
     }
+
+    <p><a href="@routes.Ocelot.ocelot("", None)" class="home link-back">Back to start</a></p>
 }

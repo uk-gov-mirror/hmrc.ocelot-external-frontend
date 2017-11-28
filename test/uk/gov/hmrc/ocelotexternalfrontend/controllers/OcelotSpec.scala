@@ -53,7 +53,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     "Show the title" in {
       val result = controller.ocelot("/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByTag("h1").text() == "Customer wants to make a cup of tea")
+      assert(html.select(".page-title").text() == "Customer wants to make a cup of tea")
     }
 
     "show a question" in {
@@ -82,6 +82,16 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       assert(labels.get(0).text() == "Yes - they do have a tea bag")
       assert(labels.get(1).text() == "No - they do not have a tea bag")
     }
+
+    "include a link back to the start" in {
+      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val home = html.select(".home")
+      assert(home.size == 1)
+      assert(home.get(0).text == "Back to start")
+    }
+
   }
 
   "GET /0" should {
@@ -114,6 +124,15 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       val terminal = html.select(".terminal")
       assert(terminal.size() == 1)
+    }
+
+    "include a link back to the start" in {
+      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val home = html.select(".home")
+      assert(home.size == 1)
+      assert(home.get(0).text == "Back to start")
     }
   }
 
