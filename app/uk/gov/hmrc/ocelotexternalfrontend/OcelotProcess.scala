@@ -24,6 +24,8 @@ import uk.gov.hmrc.ocelotexternalfrontend.types._
 import scala.collection.mutable.ListBuffer
 
 class OcelotProcess(json: JsObject) {
+
+
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
   val flow: util.HashMap[String, Stanza] = new util.HashMap[String, Stanza]()
@@ -98,9 +100,11 @@ class OcelotProcess(json: JsObject) {
 
   def getStanza(id: String): Stanza = flow.get(id)
 
-  def getStanzaText(stanza: Stanza): String = getPhrase(stanza.text)
+  def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
-  def getPhrase(id: Int): String = phrases(id).head
+  def getExternalText(stanza: Stanza) :String  = getPhrase(stanza.text, webchat = true)
+
+  def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 
   def getAllStanzas: util.HashMap[String, Stanza] = flow
 

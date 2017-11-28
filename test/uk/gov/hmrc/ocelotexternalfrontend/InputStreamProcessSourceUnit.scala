@@ -40,13 +40,11 @@ class InputStreamProcessSourceUnit extends UnitSpec {
       assert(stanzas(0).text == 6)
     }
 
-    "Give the right answer for multivalue phrases" in {
+    "Give the right answer for multi value phrases" in {
       val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/oct90001.json"))
 
-      val phrase = process.getPhrase(0)
-
-      assert(phrase == "Ask the customer if they have a tea bag")
-
+      assert(process.getPhrase(0) == "Ask the customer if they have a tea bag")
+      assert(process.getPhrase(0, webchat = true) == "Do you have a tea bag?")
     }
   }
 }

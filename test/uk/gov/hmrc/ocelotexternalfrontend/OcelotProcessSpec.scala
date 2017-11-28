@@ -31,7 +31,7 @@ class OcelotProcessSpec extends UnitSpec {
            "3":{"type":"InstructionStanza","text":5,"next":["end"]},
            "end":{"type":"EndStanza"}
          },
-         "phrases":["Test process", "Is this a question", "Yes", "No", ["Internal", "External"], "You said no"]
+         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "You said no"]
         }
         """.stripMargin
 
@@ -83,8 +83,18 @@ class OcelotProcessSpec extends UnitSpec {
     }
 
     "Get text for a stanza" in {
-      var stanza = process.getStanza("start")
-      assert(process.getStanzaText(stanza) == "Test process")
+      val stanza = process.getStanza("start")
+      assert(process.getInternalText(stanza) == "Test process")
+    }
+
+    "Get webchat text for a stanza" in {
+      val stanza = process.getStanza("start")
+      assert(process.getExternalText(stanza) == "External text")
+    }
+
+    "Get text for a stanza, even when we ask for external" in {
+      val stanza = process.getStanza("1")
+      assert(process.getExternalText(stanza) == "Is this a question")
     }
   }
 }

@@ -59,7 +59,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     "show a question" in {
       val result = controller.ocelot("/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.select(".question .prompt").text() == "Ask the customer if they have a tea bag")
+      assert(html.select(".question .prompt").text() == "Do you have a tea bag?")
     }
 
     "show a form" in {
@@ -99,7 +99,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val result = controller.ocelot("/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
-      assert(html.select(".question .prompt").text() == "Ask the customer if they have a cup")
+      assert(html.select(".question .prompt").text() == "Do you have a cup?")
     }
   }
 
@@ -109,7 +109,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val result = controller.ocelot("/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
-      assert(html.select(".question .prompt") .text() == "Ask the customer if they have a cup")
+      assert(html.select(".question .prompt") .text() == "Do you have a cup?")
     }
   }
 
