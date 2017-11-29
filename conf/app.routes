@@ -1,6 +1,4 @@
 # microservice specific routes
 
-GET        /hello-world         @uk.gov.hmrc.ocelotexternalfrontend.controllers.HelloWorld.helloWorld
-
 GET        /ocelot              @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelotBase(q: Option[String])
 GET        /ocelot/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(path, q: Option[String])

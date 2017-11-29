@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend
 
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsObject, Json}
 
 class StringProcessSource() {
   def parse(json: String): OcelotProcess = {
-    return new OcelotProcess(Json.parse(json).as[JsObject])
+    new OcelotProcess(Json.parse(json).as[JsObject])
   }
-
 }
