@@ -18,6 +18,7 @@ package uk.gov.hmrc.ocelotexternalfrontend
 
 import java.util
 
+import play.api.Logger
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
 import uk.gov.hmrc.ocelotexternalfrontend.types._
 
@@ -25,41 +26,50 @@ import scala.collection.mutable.ListBuffer
 
 class OcelotProcess(json: JsObject) {
 
-
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
-  val flow: util.HashMap[String, Stanza] = new util.HashMap[String, Stanza]()
-  val phrases: Seq[Seq[String]] = {
-    var result = Vector[Vector[String]]()
-
-    (json \ "phrases").as[List[JsValue]].foreach { v => {
-      v match {
-        case _: JsString => result = result :+ Vector[String](v.as[String])
-        case _: JsArray => result = result :+ v.as[Vector[String]]
-        case _: Any => throw new IllegalArgumentException("Unexpected json type")
+  val flow: util.HashMap[String, Stanza] = {
+    val result = new util.HashMap[String, Stanza]()
+    (json \ "flow").as[JsObject].fields.foreach {
+      key => {
+        val id = key._1
+        val raw = key._2
+        val kind = (raw \ "type").as[String]
+        result.put(id, kind match {
+          case "InstructionStanza" => new InstructionStanza(id, raw.as[JsObject])
+          case "EndStanza" => new EndStanza(id, raw.as[JsObject])
+          case "QuestionStanza" => new QuestionStanza(id, raw.as[JsObject])
+          case "ImportantStanza" => new CalloutStanza(id, raw.as[JsObject])
+          case _ => throw new IllegalArgumentException("Unknown stanza type: " + kind)
+        })
       }
-    }
     }
     result
   }
+  val phrases: Seq[Seq[String]] = {
+    var result = Vector[Vector[String]]()
+
+    (json \ "phrases").as[List[JsValue]].foreach {
+      v => {
+        v match {
+          case _: JsString => result = result :+ Vector[String](v.as[String])
+          case _: JsArray => result = result :+ v.as[Vector[String]]
+          case _: Any => throw new IllegalArgumentException("Unexpected json type")
+        }
+      }
+    }
+    result
+  }
+  private val log: Logger = Logger(this.getClass)
 
   // Parse the flow into a bunch of Stanza types
-  (json \ "flow").as[JsObject].fields.foreach { key => {
-    val id = key._1
-    val raw = key._2
-    val kind = (raw \ "type").as[String]
-    flow.put(id, kind match {
-      case "InstructionStanza" => new InstructionStanza(id, raw.as[JsObject])
-      case "EndStanza" => new EndStanza(id, raw.as[JsObject])
-      case "QuestionStanza" => new QuestionStanza(id, raw.as[JsObject])
-      case "ImportantStanza" => new CalloutStanza(id, raw.as[JsObject])
-      case _ => throw new IllegalArgumentException("Unknown stanza type: " + kind)
-    })
-  }
-  }
 
   def stanzasForPath(path: String): Seq[Stanza] = {
-    val parts = path.split("/").filter(s => try { s.toInt; true } catch { case _: Any => false }).map(s => s.toInt)
+    val parts = path.split("/").filter(s => try {
+      s.toInt; true
+    } catch {
+      case _: Any => false
+    }).map(s => s.toInt)
     var index = 0
 
     var result = ListBuffer[Stanza]()
@@ -78,14 +88,14 @@ class OcelotProcess(json: JsObject) {
         if (index < parts.length) {
           // Still working through the input from the user
 
-          if (parts(index) >= 0  && parts(index) < stanza.next.length) {
+          if (parts(index) >= 0 && parts(index) < stanza.next.length) {
             // Valid answer. Get the next stanza
             stanza = getStanza(stanza.next(parts(index)))
             result.clear()
             index += 1
           } else {
             // Invalid answer. Probably someone trying to be naughty
-            // TODO: Log as interesting, but not dangerous
+            log.info(s"Request for [$path] failed, unknown answer at index [$index]")
             result.clear()
             result += getStanza("end")
             return result
@@ -95,6 +105,7 @@ class OcelotProcess(json: JsObject) {
         }
       }
     }
+    log.error("Dropped out of the bottom of while(true)")
     throw new IllegalStateException("Should not be able to get here")
   }
 
@@ -102,7 +113,7 @@ class OcelotProcess(json: JsObject) {
 
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
-  def getExternalText(stanza: Stanza) :String  = getPhrase(stanza.text, webchat = true)
+  def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
 
   def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 

@@ -18,20 +18,24 @@ package uk.gov.hmrc.ocelotexternalfrontend.controllers
 
 import javax.inject.Inject
 
+import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Action
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
-import uk.gov.hmrc.ocelotexternalfrontend.{InputStreamProcessSource, StringProcessSource, views}
+import uk.gov.hmrc.ocelotexternalfrontend.{InputStreamProcessSource, views}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 
 class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: AppConfig) extends FrontendController with I18nSupport {
 
+  private val log: Logger = Logger(this.getClass)
+
   def ocelotBase(q: Option[String]) = ocelot("/", q)
 
   def ocelot(path: String, q: Option[String]) = Action.async {
     implicit request => {
+
       val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/oct90001.json"))
       var targetPath = path
 
@@ -43,6 +47,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
         targetPath += "/" + q.get
       }
 
+      log.info(s"Handling tequest for $targetPath")
       Future.successful(Ok(views.html.ocelot(process, targetPath)))
     }
   }
