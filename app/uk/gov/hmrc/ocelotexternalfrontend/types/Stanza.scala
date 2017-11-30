@@ -34,11 +34,9 @@ class EndStanza(id: String, json: JsObject) extends Stanza(id, json) {
 }
 
 class InstructionStanza(id: String, json: JsObject) extends Stanza(id, json) {
-
   override val text: Int = (json \ "text").as[Int]
   val kind = "instruction"
   override val next: Seq[String] = (json \ "next").as[List[String]]
-
 }
 
 class QuestionStanza(id: String, json: JsObject) extends Stanza(id, json) {

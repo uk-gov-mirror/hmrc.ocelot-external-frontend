@@ -16,8 +16,6 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend
 
-import java.util
-
 import play.api.Logger
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
 import uk.gov.hmrc.ocelotexternalfrontend.types._
@@ -28,48 +26,37 @@ class OcelotProcess(json: JsObject) {
 
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
-  val flow: util.HashMap[String, Stanza] = {
-    val result = new util.HashMap[String, Stanza]()
-    (json \ "flow").as[JsObject].fields.foreach {
-      key => {
-        val id = key._1
-        val raw = key._2
-        val kind = (raw \ "type").as[String]
-        result.put(id, kind match {
-          case "InstructionStanza" => new InstructionStanza(id, raw.as[JsObject])
-          case "EndStanza" => new EndStanza(id, raw.as[JsObject])
-          case "QuestionStanza" => new QuestionStanza(id, raw.as[JsObject])
-          case "ImportantStanza" => new CalloutStanza(id, raw.as[JsObject])
-          case _ => throw new IllegalArgumentException("Unknown stanza type: " + kind)
-        })
-      }
-    }
-    result
-  }
-  val phrases: Seq[Seq[String]] = {
-    var result = Vector[Vector[String]]()
 
-    (json \ "phrases").as[List[JsValue]].foreach {
-      v => {
-        v match {
-          case _: JsString => result = result :+ Vector[String](v.as[String])
-          case _: JsArray => result = result :+ v.as[Vector[String]]
-          case _: Any => throw new IllegalArgumentException("Unexpected json type")
-        }
+  val flow: Map[String, Stanza] = (for (f <- (json \ "flow").as[JsObject].fields)
+    yield {
+      val id = f._1
+      val raw = f._2
+      val kind = (raw \ "type").as[String]
+      val stanza = kind match {
+        case "InstructionStanza" => new InstructionStanza(id, raw.as[JsObject])
+        case "EndStanza" => new EndStanza(id, raw.as[JsObject])
+        case "QuestionStanza" => new QuestionStanza(id, raw.as[JsObject])
+        case "ImportantStanza" => new CalloutStanza(id, raw.as[JsObject])
+        case _ => throw new IllegalArgumentException("Unknown stanza type: " + kind)
       }
+      id -> stanza
+    }).toMap
+
+  val phrases: Seq[Seq[String]] = for (v <- (json \ "phrases").as[List[JsValue]])
+    yield v match {
+      case _: JsString => Vector[String](v.as[String])
+      case _: JsArray => v.as[Vector[String]]
+      case _: Any => throw new IllegalArgumentException("Unexpected json type")
     }
-    result
-  }
+
   private val log: Logger = Logger(this.getClass)
 
   // Parse the flow into a bunch of Stanza types
 
   def stanzasForPath(path: String): Seq[Stanza] = {
-    val parts = path.split("/").filter(s => try {
-      s.toInt; true
-    } catch {
-      case _: Any => false
-    }).map(s => s.toInt)
+    val parts = for(s <- path.split("/") if s.matches("^\\d+$"))
+      yield s.toInt
+
     var index = 0
 
     var result = ListBuffer[Stanza]()
@@ -109,7 +96,7 @@ class OcelotProcess(json: JsObject) {
     throw new IllegalStateException("Should not be able to get here")
   }
 
-  def getStanza(id: String): Stanza = flow.get(id)
+  def getStanza(id: String): Stanza = flow(id)
 
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
@@ -117,6 +104,6 @@ class OcelotProcess(json: JsObject) {
 
   def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 
-  def getAllStanzas: util.HashMap[String, Stanza] = flow
+  def getAllStanzas: Map[String, Stanza] = flow
 
 }

@@ -47,7 +47,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
         targetPath += "/" + q.get
       }
 
-      log.info(s"Handling tequest for $targetPath")
+      log.info(s"Handling request for $targetPath")
       Future.successful(Ok(views.html.ocelot(process, targetPath)))
     }
   }
