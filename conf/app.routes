@@ -2,3 +2,6 @@
 
 GET        /ocelot              @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelotBase(q: Option[String])
 GET        /ocelot/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(path, q: Option[String])
+
+GET        /ping/ping           @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ping.ping
+
