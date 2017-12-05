@@ -46,7 +46,7 @@ class QuestionStanza(id: String, json: JsObject) extends Stanza(id, json) {
   override val next: Seq[String] = (json \ "next").as[List[String]]
   val answers: Seq[Int] = (json \ "answers").as[List[Int]]
 
-  def answer(id: Int) = answers(id)
+  def answer(id: Int): Int = answers(id)
 }
 
 class CalloutStanza(id: String, json: JsObject) extends InstructionStanza(id, json) {

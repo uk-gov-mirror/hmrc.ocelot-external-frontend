@@ -23,3 +23,4 @@ class StringProcessSource() {
     new OcelotProcess(Json.parse(json).as[JsObject])
   }
 }
+
