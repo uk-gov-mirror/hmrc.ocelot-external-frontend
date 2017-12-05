@@ -31,24 +31,28 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
 
   private val log: Logger = Logger(this.getClass)
 
-  def ocelotBase(q: Option[String]): Action[AnyContent] = ocelot("/", q)
+  def ocelotBase(id: String, q: Option[String]): Action[AnyContent] = ocelot(id, "/", q)
 
-  def ocelot(path: String, q: Option[String]): Action[AnyContent] = Action.async {
+  def ocelot(id: String, path: String, q: Option[String]): Action[AnyContent] = Action.async {
     implicit request => {
 
-      val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/oct90001.json"))
-      var targetPath = path
+      if (id.matches("^[a-z]{3}\\d{5}$")) {
+        val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/" + id + ".json"))
+        var targetPath = path
 
-      if (targetPath == "/") {
-        targetPath = ""
+        if (targetPath == "/") {
+          targetPath = ""
+        }
+
+        if (q.isDefined) {
+          targetPath += "/" + q.get
+        }
+
+        log.info(s"Handling request for $targetPath")
+        Future.successful(Ok(views.html.ocelot(process, targetPath, id)))
+      } else {
+        Future.successful(NotFound("Process not found"))
       }
-
-      if (q.isDefined) {
-        targetPath += "/" + q.get
-      }
-
-      log.info(s"Handling request for $targetPath")
-      Future.successful(Ok(views.html.ocelot(process, targetPath)))
     }
   }
 }

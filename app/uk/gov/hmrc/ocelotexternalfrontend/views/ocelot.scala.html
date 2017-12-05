@@ -20,11 +20,11 @@
 @import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, QuestionStanza, Stanza}
 
 @import uk.gov.hmrc.ocelotexternalfrontend.types.CalloutStanza
-@(process: OcelotProcess, path: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(process: OcelotProcess, path: String, id: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @question(stanza: QuestionStanza) = {
 
-    @helper.form(action = routes.Ocelot.ocelot(path, None)) {
+    @helper.form(action = routes.Ocelot.ocelot(id, path, None)) {
         <div class="question form-group">
             <fieldset >
                 <legend>
@@ -91,5 +91,5 @@
         @drawStanza(stanza)
     }
 
-    <p><a href="@routes.Ocelot.ocelot("", None)" class="home link-back">Back to start</a></p>
+    <p><a href="@routes.Ocelot.ocelot(id, "", None)" class="home link-back">Back to start</a></p>
 }

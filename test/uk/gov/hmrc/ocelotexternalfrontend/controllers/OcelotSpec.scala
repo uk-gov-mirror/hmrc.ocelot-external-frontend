@@ -27,7 +27,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 
 class OcelotSpec extends UnitSpec with WithFakeApplication {
-  val fakeRequest = FakeRequest("GET", "/")
+  val fakeRequest = FakeRequest("GET", "/ocelot9`001")
 
   val env = Environment.simple()
   val configuration = Configuration.load(env)
@@ -38,38 +38,46 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
   val controller = new Ocelot(messageApi, appConfig)
 
   "GET /" should {
+    "return 404" in {
+      val result = controller.ocelot("", "/", None).apply(fakeRequest)
+      status(result) shouldBe Status.NOT_FOUND
+    }
+
+  }
+
+  "GET /oct90001" should {
 
     "return 200" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       status(result) shouldBe Status.OK
     }
 
     "return HTML" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       contentType(result) shouldBe Some("text/html")
       charset(result) shouldBe Some("utf-8")
     }
 
     "Show the title" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
       assert(html.select(".page-title").text() == "Customer wants to make a cup of tea")
     }
 
     "show a question" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
       assert(html.select(".question .prompt").text() == "Do you have a tea bag?")
     }
 
     "show a form" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/ocelot/")
+      assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/ocelot/oct90001/")
     }
 
     "Give radios the right values" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val inputs = html.select("input[type=radio]")
@@ -84,19 +92,18 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
 
     "include a link back to the start" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val home = html.select(".home")
       assert(home.size == 1)
       assert(home.get(0).text == "Back to start")
     }
-
   }
 
   "GET /0" should {
     "render another question" in {
-      val result = controller.ocelot("/0", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.select(".question .prompt").text() == "Do you have a cup?")
@@ -106,17 +113,17 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
   "GET /?q=0" should {
 
     "render the same as /0" in {
-      val result = controller.ocelot("/0", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/0", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
-      assert(html.select(".question .prompt") .text() == "Do you have a cup?")
+      assert(html.select(".question .prompt").text() == "Do you have a cup?")
     }
   }
 
   "GET /1" should {
     "end the process" in {
 
-      val result = controller.ocelot("/1", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/1", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val instructions = html.select(".instruction")
@@ -127,7 +134,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
 
     "include a link back to the start" in {
-      val result = controller.ocelot("/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val home = html.select(".home")
@@ -138,7 +145,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
   "GET /2" should {
     "fail gracefully" in {
-      val result = controller.ocelot("/2", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/2", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val terminal = html.select(".terminal")
