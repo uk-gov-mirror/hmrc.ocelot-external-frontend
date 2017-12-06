@@ -18,6 +18,7 @@ package uk.gov.hmrc.ocelotexternalfrontend
 
 import play.api.Logger
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
+import play.twirl.api.Html
 import uk.gov.hmrc.ocelotexternalfrontend.types._
 
 import scala.collection.mutable.ListBuffer
@@ -101,6 +102,10 @@ class OcelotProcess(json: JsObject) {
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
   def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
+
+  def getInternalHTML(stanza: Stanza): Html = PlaceholderManager.convert(getPhrase(stanza.text))
+
+  def getExternalHTML(stanza: Stanza): Html = PlaceholderManager.convert(getPhrase(stanza.text, webchat = true))
 
   def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 

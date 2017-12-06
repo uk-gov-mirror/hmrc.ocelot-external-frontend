@@ -22,7 +22,7 @@ import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
-import uk.gov.hmrc.ocelotexternalfrontend.{InputStreamProcessSource, views}
+import uk.gov.hmrc.ocelotexternalfrontend.{InputStreamProcessSource, OcelotProcess, views}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
@@ -37,7 +37,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
     implicit request => {
 
       if (id.matches("^[a-z]{3}\\d{5}$")) {
-        val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/" + id + ".json"))
+        implicit val process: OcelotProcess = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/" + id + ".json"))
         var targetPath = path
 
         if (targetPath == "/") {
@@ -48,8 +48,10 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
           targetPath += "/" + q.get
         }
 
+        val stanzas = process.stanzasForPath(targetPath)
+
         log.info(s"Handling request for $targetPath")
-        Future.successful(Ok(views.html.ocelot(process, targetPath, id)))
+        Future.successful(Ok(views.html.ocelot(stanzas, targetPath, id)))
       } else {
         Future.successful(NotFound("Process not found"))
       }

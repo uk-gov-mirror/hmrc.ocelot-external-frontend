@@ -17,45 +17,44 @@
 @import uk.gov.hmrc.ocelotexternalfrontend.OcelotProcess
 @import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
 @import uk.gov.hmrc.ocelotexternalfrontend.controllers.routes
-@import uk.gov.hmrc.ocelotexternalfrontend.types.{EndStanza, InstructionStanza, QuestionStanza, Stanza}
+@import uk.gov.hmrc.ocelotexternalfrontend.types._
 
-@import uk.gov.hmrc.ocelotexternalfrontend.types.CalloutStanza
-@(process: OcelotProcess, path: String, id: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(stanzas: Seq[Stanza], path: String, id: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig, process: OcelotProcess)
 
 @question(stanza: QuestionStanza) = {
 
-    @helper.form(action = routes.Ocelot.ocelot(id, path, None)) {
-        <div class="question form-group">
-            <fieldset >
-                <legend>
-                    <h1 class="heading-medium prompt">
-                    @process.getExternalText(stanza)
-                    </h1>
-                </legend>
+@helper.form(action = routes.Ocelot.ocelot(id, path, None)) {
+    <div class="question form-group">
+        <fieldset >
+            <legend>
+                <h1 class="heading-medium prompt">
+                @process.getExternalHTML(stanza)
+                </h1>
+            </legend>
 
-                @for((answerId, i) <- stanza.answers.zipWithIndex) {
-                    <div class="multiple-choice">
-                        <input type='radio' name="q" value="@i" id="q-@i">
+            @for((answerId, i) <- stanza.answers.zipWithIndex) {
+                <div class="multiple-choice">
+                    <input type='radio' name="q" value="@i" id="q-@i">
 
-                        <label for="q-@i">
-                        @process.getPhrase(answerId)
-                        </label>
-                    </div>
-                }
-            </fieldset>
-        </div>
+                    <label for="q-@i">
+                    @process.getPhrase(answerId)
+                    </label>
+                </div>
+            }
+        </fieldset>
+    </div>
 
-        <input class="button" type="submit" value="Next">
-    }
+    <input class="button" type="submit" value="Next">
+}
 }
 
 @instruction(stanza: InstructionStanza) = {
-    <p class="instruction">@process.getExternalText(stanza)</p>
+    <p class="instruction">@process.getExternalHTML(stanza)</p>
 }
 
 @callout(stanza: CalloutStanza) = {
     <div class="callout panel panel-border-wide">
-        <p>@process.getExternalText(stanza)</p>
+        <p>@process.getExternalHTML(stanza)</p>
     </div>
 }
 
@@ -87,7 +86,7 @@
 
     <h2 class="heading-large page-title">@process.title</h2>
 
-    @for(stanza <- process.stanzasForPath(path)) {
+    @for(stanza <- stanzas) {
         @drawStanza(stanza)
     }
 

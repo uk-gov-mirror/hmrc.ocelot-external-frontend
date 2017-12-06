@@ -31,7 +31,7 @@ class OcelotProcessSpec extends UnitSpec {
            "3":{"type":"InstructionStanza","text":5,"next":["end"]},
            "end":{"type":"EndStanza"}
          },
-         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "You said no"]
+         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "Hello, [glossary:world]"]
         }
         """.stripMargin
 
@@ -96,5 +96,21 @@ class OcelotProcessSpec extends UnitSpec {
       val stanza = process.getStanza("1")
       assert(process.getExternalText(stanza) == "Is this a question")
     }
+
+    "Get HTML for a stanza" in {
+      val stanza = process.getStanza("1")
+      var html = process.getInternalHTML(stanza)
+      assert(html.contentType == "text/html")
+      assert(html.body == "Is this a question")
+    }
+
+    "Placeholders work" in {
+      val stanza = process.getStanza("3")
+      var html = process.getInternalHTML(stanza)
+      assert(html.contentType == "text/html")
+      assert(html.body == "Hello, world")
+    }
+
+
   }
 }
