@@ -69,13 +69,22 @@ class PlaceholderManagerUnit extends UnitSpec {
       assert(html.body == """Hello, [unbalanced""")
     }
 
-    "Handle simple timescales" in {
+    "Handle forwards timescales" in {
       val html = PlaceholderManager.convert("[timescale:2 weeks:date]")
       assert(html.contentType == "text/html")
 
-
       val today = LocalDate.now()
       val twoWeeks = today.plus(2, ChronoUnit.WEEKS)
+      val twoWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(twoWeeks)
+      assert(html.body == twoWeekString)
+    }
+
+    "Handle backwards timescales" in {
+      val html = PlaceholderManager.convert("[timescale:2 weeks:date_ago]")
+      assert(html.contentType == "text/html")
+
+      val today = LocalDate.now()
+      val twoWeeks = today.minus(2, ChronoUnit.WEEKS)
       val twoWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(twoWeeks)
       assert(html.body == twoWeekString)
     }

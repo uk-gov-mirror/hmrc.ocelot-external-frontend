@@ -80,15 +80,24 @@ object PlaceholderManager {
 
   def timescale(parts: Seq[String]): String = {
     val tsPattern = "^(\\d+)\\s*(day|week)s?$".r
+    val formatter = DateTimeFormatter.ofPattern("dd MMM YYYY")
+    val format = parts(1)
 
-    DateTimeFormatter.ofPattern("dd MMM YYYY").format(parts.head match {
-      case tsPattern(num, duration) =>
-        duration match {
-          case "day" => LocalDate.now().plus(num.toLong, ChronoUnit.DAYS)
-          case "week" => LocalDate.now().plus(num.toLong, ChronoUnit.WEEKS)
-        }
-      case _ => LocalDate.now()
-    })
+    val matches = tsPattern.findFirstMatchIn(parts.head).get.subgroups
+    if (matches.nonEmpty) {
+      val num = matches(0).toLong
+      val duration = matches(1) match {
+        case "day" => ChronoUnit.DAYS
+        case "week" => ChronoUnit.WEEKS
+      }
+
+      formatter.format(format match {
+        case "date_ago" => LocalDate.now().minus(num, duration)
+        case _ => LocalDate.now().plus(num, duration)
+      })
+    } else {
+      formatter.format(LocalDate.now())
+    }
   }
 
 }
