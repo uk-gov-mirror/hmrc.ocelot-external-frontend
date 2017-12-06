@@ -109,6 +109,8 @@ class OcelotProcess(json: JsObject) {
 
   def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 
+  def getPhraseHtml(id: Int, webchat: Boolean = false): Html = PlaceholderManager.convert(getPhrase(id, webchat))
+
   def getAllStanzas: Map[String, Stanza] = flow
 
 }
