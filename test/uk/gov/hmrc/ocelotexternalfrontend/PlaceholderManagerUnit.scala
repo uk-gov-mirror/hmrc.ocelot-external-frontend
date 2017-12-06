@@ -16,6 +16,12 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend
 
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.Date
+
 import uk.gov.hmrc.play.test.UnitSpec
 
 class PlaceholderManagerUnit extends UnitSpec {
@@ -61,6 +67,17 @@ class PlaceholderManagerUnit extends UnitSpec {
       val html = PlaceholderManager.convert("Hello, [unbalanced")
       assert(html.contentType == "text/html")
       assert(html.body == """Hello, [unbalanced""")
+    }
+
+    "Handle simple timescales" in {
+      val html = PlaceholderManager.convert("[timescale:2 weeks:date]")
+      assert(html.contentType == "text/html")
+
+
+      val today = LocalDate.now()
+      val twoWeeks = today.plus(2, ChronoUnit.WEEKS)
+      val twoWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(twoWeeks)
+      assert(html.body == twoWeekString)
     }
 
 

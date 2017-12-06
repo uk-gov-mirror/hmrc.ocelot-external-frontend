@@ -16,6 +16,10 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+
 import play.api.Logger
 import play.twirl.api.Html
 
@@ -49,6 +53,7 @@ object PlaceholderManager {
           result.append(name match {
             case "glossary" => glossary(args)
             case "link" => link(args)
+            case "timescale" => timescale(args)
             case _ => "[" + parts.mkString(":") + "]"
           })
         } else {
@@ -72,5 +77,18 @@ object PlaceholderManager {
   def glossary(parts: Seq[String]): String = if (parts.length > 1) parts.slice(1, parts.length).mkString(":") else parts.head
 
   def link(parts: Seq[String]): String = a(href := parts.slice(1, parts.length).mkString(":"))(parts.head).toString
+
+  def timescale(parts: Seq[String]): String = {
+    val tsPattern = "^(\\d+)\\s*(day|week)s?$".r
+
+    DateTimeFormatter.ofPattern("dd MMM YYYY").format(parts.head match {
+      case tsPattern(num, duration) =>
+        duration match {
+          case "day" => LocalDate.now().plus(num.toLong, ChronoUnit.DAYS)
+          case "week" => LocalDate.now().plus(num.toLong, ChronoUnit.WEEKS)
+        }
+      case _ => LocalDate.now()
+    })
+  }
 
 }
