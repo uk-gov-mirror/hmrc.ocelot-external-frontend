@@ -43,8 +43,10 @@ object PlaceholderManager {
         val parts = raw.split(":")
 
         if (parts.nonEmpty) {
+          val name = parts.head
           val args = parts.slice(1, parts.length)
-          result.append(parts.head match {
+          log.debug(s"Found a placeholder: $name")
+          result.append(name match {
             case "glossary" => glossary(args)
             case "link" => link(args)
             case _ => "[" + parts.mkString(":") + "]"
