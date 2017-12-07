@@ -42,20 +42,10 @@ object PlaceholderManager {
       } else if (c == ']') {
         endIndex = i
 
-        val raw = in.substring(startIndex + 1, endIndex)
-
-        val parts = raw.split(":")
+        val parts = in.substring(startIndex + 1, endIndex).split(":")
 
         if (parts.nonEmpty) {
-          val name = parts.head
-          val args = parts.slice(1, parts.length)
-
-          result.append(name match {
-            case "glossary" => glossary(args)
-            case "link" => link(args)
-            case "timescale" => timescale(args)
-            case _ => "[" + parts.mkString(":") + "]"
-          })
+          result.append(handlePlaceholder(parts))
         } else {
           result.append("[]")
         }
@@ -67,37 +57,49 @@ object PlaceholderManager {
     }
 
     if (inside) {
-      // Unbalanced '['
+      // We've reached the end of the input string but we still think
+      // that we're inside a square bracket.
+      // Dump the string beck to the output.
       result.append(in.substring(startIndex, in.length))
     }
 
     Html.apply(result.toString)
   }
 
-  def glossary(parts: Seq[String]): String = if (parts.length > 1) parts.slice(1, parts.length).mkString(":") else parts.head
+  private def handlePlaceholder(parts: Seq[String]) = {
+    val name = parts.head
+    val args = parts.slice(1, parts.length)
 
-  def link(parts: Seq[String]): String = a(href := parts.slice(1, parts.length).mkString(":"))(parts.head).toString
-
-  def timescale(parts: Seq[String]): String = {
-    val tsPattern = "^(\\d+)\\s*(day|week)s?$".r
-    val formatter = DateTimeFormatter.ofPattern("dd MMM YYYY")
-    val format = parts(1)
-
-    val matches = tsPattern.findFirstMatchIn(parts.head).get.subgroups
-    if (matches.nonEmpty) {
-      val num = matches(0).toLong
-      val duration = matches(1) match {
-        case "day" => ChronoUnit.DAYS
-        case "week" => ChronoUnit.WEEKS
-      }
-
-      formatter.format(format match {
-        case "date_ago" => LocalDate.now().minus(num, duration)
-        case _ => LocalDate.now().plus(num, duration)
-      })
-    } else {
-      formatter.format(LocalDate.now())
+    name match {
+      case "glossary" => glossary(args)
+      case "link" => link(args)
+      case "timescale" => timescale(args)
+      case _ => "[" + parts.mkString(":") + "]"
     }
   }
 
+  private def glossary(parts: Seq[String]): String = if (parts.length > 1) parts.slice(1, parts.length).mkString(":") else parts.head
+
+  private def link(parts: Seq[String]): String = a(href := parts.slice(1, parts.length).mkString(":"))(parts.head).toString
+
+  private def timescale(parts: Seq[String]): String = {
+    val tsPattern = "^(\\d+)\\s*(day|week)s?$".r
+    val formatter = DateTimeFormatter.ofPattern("dd MMM YYYY")
+    val format = parts(1)
+    formatter.format(
+      parts.head match {
+        case tsPattern(num, duration) =>
+          val dType = duration match {
+            case "day" => ChronoUnit.DAYS
+            case "week" => ChronoUnit.WEEKS
+          }
+          format match {
+            case "date_ago" => LocalDate.now().minus(num.toLong, dType)
+            case _ => LocalDate.now().plus(num.toLong, dType)
+          }
+
+        case _ => LocalDate.now()
+      }
+    )
+  }
 }

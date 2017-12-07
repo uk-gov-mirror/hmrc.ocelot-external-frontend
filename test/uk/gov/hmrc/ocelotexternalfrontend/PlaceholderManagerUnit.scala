@@ -51,6 +51,18 @@ class PlaceholderManagerUnit extends UnitSpec {
       assert(html.body == """Hello, <a href="https://bing.com/">world</a>""")
     }
 
+    "handles glossary with id and text" in {
+      val html = PlaceholderManager.convert("[glossary:Hello:World]")
+      assert(html.contentType == "text/html")
+      assert(html.body == "World")
+    }
+
+    "handles glossary with id and colons in text" in {
+      val html = PlaceholderManager.convert("[glossary:Hello:World:!]")
+      assert(html.contentType == "text/html")
+      assert(html.body == "World:!")
+    }
+
     "Handle broken placeholders: []" in {
       val html = PlaceholderManager.convert("Hello, []")
       assert(html.contentType == "text/html")
@@ -89,6 +101,15 @@ class PlaceholderManagerUnit extends UnitSpec {
       assert(html.body == twoWeekString)
     }
 
+    "handle broken timescales" in {
+      val html = PlaceholderManager.convert("[timescale:bogus:date_ago]")
+      assert(html.contentType == "text/html")
+
+      val today = LocalDate.now()
+      val todayWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(today)
+      assert(html.body == todayWeekString)
+
+    }
 
   }
 }
