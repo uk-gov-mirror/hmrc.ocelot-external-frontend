@@ -40,12 +40,16 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
         implicit val process: OcelotProcess = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/" + id + ".json"))
         var targetPath = path
 
-        if (targetPath == "/") {
-          targetPath = ""
+/*
+        if (targetPath == "") {
+          targetPath = "/"
         }
-
+*/
         if (q.isDefined) {
-          targetPath += "/" + q.get
+          if (targetPath.last != '/') {
+            targetPath += "/"
+          }
+          targetPath += q.get
         }
 
         val stanzas = process.stanzasForPath(targetPath)

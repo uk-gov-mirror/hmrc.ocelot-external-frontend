@@ -16,36 +16,34 @@
 
 @import uk.gov.hmrc.ocelotexternalfrontend.OcelotProcess
 @import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
-@import uk.gov.hmrc.ocelotexternalfrontend.controllers.routes
 @import uk.gov.hmrc.ocelotexternalfrontend.types._
+@import uk.gov.hmrc.ocelotexternalfrontend.views.Tools
 
 @(stanzas: Seq[Stanza], path: String, id: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig, process: OcelotProcess)
 
 @question(stanza: QuestionStanza) = {
+    <form method="GET" action="@Tools.buildPath(id, path)">
 
-@helper.form(action = routes.Ocelot.ocelot(id, path, None)) {
-    <div class="question form-group">
-        <fieldset >
-            <legend>
-                <h1 class="heading-medium prompt">
-                @process.getExternalHTML(stanza)
-                </h1>
-            </legend>
+        <div class="question form-group">
+            <fieldset >
+                <legend>
+                    <h1 class="heading-medium prompt">@process.getExternalHTML(stanza)</h1>
+                </legend>
 
-            @for((answerId, i) <- stanza.answers.zipWithIndex) {
-                <div class="multiple-choice">
-                    <input type='radio' name="q" value="@i" id="q-@i">
+                @for((answerId, i) <- stanza.answers.zipWithIndex) {
+                    <div class="multiple-choice">
+                        <input type='radio' name="q" value="@i" id="q-@i">
 
-                    <label for="q-@i">
-                    @process.getPhraseHtml(answerId)
-                    </label>
-                </div>
-            }
-        </fieldset>
-    </div>
+                        <label for="q-@i">
+                        @process.getPhraseHtml(answerId)
+                        </label>
+                    </div>
+                }
+            </fieldset>
+        </div>
 
-    <input class="button" type="submit" value="Next">
-}
+        <input class="button" type="submit" value="@messages("link.nextButton")">
+    </form>
 }
 
 @instruction(stanza: InstructionStanza) = {
@@ -75,6 +73,7 @@
         case _: Any => unknown
     }
 }
+
 @phraseBanner = {
     <div class="phase-banner">
         <p>
@@ -83,13 +82,14 @@
         </p>
     </div>
 }
+
 @main_template(title = "Ocelot", navTitle= Some(process.title), contentHeader = Some(phraseBanner)) {
 
-    <p><a href="@routes.Ocelot.ocelot(id, path, None)" class="link-back">@messages("link.backOne")</a></p>
+    <p><a href="@Tools.buildPath(id, Tools.calculateBack(path))" class="link-back">@messages("link.backOne")</a></p>
 
     @for(stanza <- stanzas) {
         @drawStanza(stanza)
     }
 
-    <p><a href="@routes.Ocelot.ocelot(id, "", None)" class="home" >@messages("link.backToStart")</a></p>
+    <p><a href="@Tools.buildPath(id,"/")" class="home" >@messages("link.backToStart")</a></p>
 }

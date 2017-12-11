@@ -16,18 +16,21 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend.controllers
 
-import play.api.i18n.{DefaultLangs, DefaultMessagesApi, Messages, MessagesApi}
 import org.jsoup.Jsoup
 import play.api.http.Status
+import play.api.i18n.{DefaultLangs, DefaultMessagesApi, Messages, MessagesApi}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{charset, contentType, _}
-import play.api.{Configuration, Environment}
+import play.api.{Configuration, Environment, Logger}
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 
 class OcelotSpec extends UnitSpec with WithFakeApplication {
-  val fakeRequest = FakeRequest("GET", "/ocelot9`001")
+
+  val log = Logger(getClass)
+
+  val fakeRequest = FakeRequest("GET", "/ocelot9001")
 
   val env = Environment.simple()
   val configuration = Configuration.load(env)
@@ -110,6 +113,16 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       assert(html.select(".question .prompt").text() == "Do you have a cup?")
     }
+
+    "render the correct back link" in {
+      val result = controller.ocelot("oct90001", "/0", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val back = html.select(".link-back")
+
+      assert(back.size() == 1)
+      assert(back.get(0).attr("href") == "/ocelot-external-frontend/ocelot/oct90001/")
+    }
   }
 
   "GET /?q=0" should {
@@ -152,7 +165,18 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       val terminal = html.select(".terminal")
       assert(terminal.size() == 1)
+    }
+  }
 
+  "GET /0/0" should {
+    "have the right back link" in {
+      val result = controller.ocelot("oct90001", "/0/0", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val back = html.select(".link-back")
+
+      assert(back.size() == 1)
+      assert(back.get(0).attr("href") == "/ocelot-external-frontend/ocelot/oct90001/0")
     }
   }
 
