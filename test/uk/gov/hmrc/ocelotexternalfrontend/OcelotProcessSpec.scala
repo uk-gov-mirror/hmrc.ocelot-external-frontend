@@ -15,7 +15,6 @@
  */
 
 package uk.gov.hmrc.ocelotexternalfrontend
-
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OcelotProcessSpec extends UnitSpec {
@@ -50,7 +49,7 @@ class OcelotProcessSpec extends UnitSpec {
     }
 
     "have a phrasebank" in {
-      assert(process.phrases.length == 6)
+      assert(process.phrases.lengthCompare(6) == 0)
       assert(process.getPhrase(0) == "Test process")
       assert(process.getPhrase(4) == "Internal")
     }
@@ -59,7 +58,7 @@ class OcelotProcessSpec extends UnitSpec {
       val path = "/"
       val stanzas = process.stanzasForPath(path)
 
-      assert(stanzas.size == 2)
+      assert(stanzas.lengthCompare(2) == 0)
       assert(stanzas(0).id == "start")
       assert(stanzas(1).id == "1")
     }
@@ -68,7 +67,7 @@ class OcelotProcessSpec extends UnitSpec {
       val path = "/0"
       val stanzas = process.stanzasForPath(path)
 
-      assert(stanzas.size == 2)
+      assert(stanzas.lengthCompare(2) == 0)
       assert(stanzas(0).id == "2")
       assert(stanzas(1).id == "end")
     }
@@ -77,7 +76,7 @@ class OcelotProcessSpec extends UnitSpec {
       val path = "/1"
       val stanzas = process.stanzasForPath(path)
 
-      assert(stanzas.size == 2)
+      assert(stanzas.lengthCompare(2) == 0)
       assert(stanzas(0).id == "3")
       assert(stanzas(1).id == "end")
     }
@@ -110,7 +109,6 @@ class OcelotProcessSpec extends UnitSpec {
       assert(html.contentType == "text/html")
       assert(html.body == "Hello, world")
     }
-
 
   }
 }

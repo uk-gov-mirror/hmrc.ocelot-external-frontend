@@ -76,7 +76,7 @@
     }
 }
 
-@main_template(title = "Ocelot") {
+@main_template(title = "Ocelot", navTitle= Some(process.title)) {
     <div class="phase-banner">
         <p>
             <strong class="phase-tag">ALPHA</strong>
@@ -84,11 +84,11 @@
         </p>
     </div>
 
-    <h2 class="heading-large page-title">@process.title</h2>
+    <p><a href="@routes.Ocelot.ocelot(id, path, None)" class="link-back">@messages("link.backOne")</a></p>
 
     @for(stanza <- stanzas) {
         @drawStanza(stanza)
     }
 
-    <p><a href="@routes.Ocelot.ocelot(id, "", None)" class="home link-back">Back to start</a></p>
+    <p><a href="@routes.Ocelot.ocelot(id, "", None)" class="home" >@messages("link.backToStart")</a></p>
 }

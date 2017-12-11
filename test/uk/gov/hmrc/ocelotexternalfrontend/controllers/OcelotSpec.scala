@@ -16,9 +16,9 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend.controllers
 
+import play.api.i18n.{DefaultLangs, DefaultMessagesApi, Messages, MessagesApi}
 import org.jsoup.Jsoup
 import play.api.http.Status
-import play.api.i18n.{DefaultLangs, DefaultMessagesApi}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{charset, contentType, _}
 import play.api.{Configuration, Environment}
@@ -32,7 +32,10 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
   val env = Environment.simple()
   val configuration = Configuration.load(env)
 
-  val messageApi = new DefaultMessagesApi(env, configuration, new DefaultLangs(configuration))
+  val messageApi: MessagesApi = new DefaultMessagesApi(env, configuration, new DefaultLangs(configuration))
+
+  implicit val messages: Messages = messageApi.preferred(fakeRequest)
+
   val appConfig = new AppConfig(configuration, env)
 
   val controller = new Ocelot(messageApi, appConfig)
@@ -42,7 +45,6 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val result = controller.ocelot("", "/", None).apply(fakeRequest)
       status(result) shouldBe Status.NOT_FOUND
     }
-
   }
 
   "GET /oct90001" should {
@@ -61,7 +63,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     "Show the title" in {
       val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.select(".page-title").text() == "Customer wants to make a cup of tea")
+      assert(html.select(".header__menu__proposition-name").text() == "Customer wants to make a cup of tea")
     }
 
     "show a question" in {
@@ -97,7 +99,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       val home = html.select(".home")
       assert(home.size == 1)
-      assert(home.get(0).text == "Back to start")
+      assert(home.get(0).text == Messages("link.backToStart"))
     }
   }
 
@@ -139,7 +141,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       val home = html.select(".home")
       assert(home.size == 1)
-      assert(home.get(0).text == "Back to start")
+      assert(home.get(0).text == Messages("link.backToStart"))
     }
   }
 
