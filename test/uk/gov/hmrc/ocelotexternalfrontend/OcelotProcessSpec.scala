@@ -15,6 +15,8 @@
  */
 
 package uk.gov.hmrc.ocelotexternalfrontend
+
+import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OcelotProcessSpec extends UnitSpec {
@@ -26,11 +28,20 @@ class OcelotProcessSpec extends UnitSpec {
          "flow":{
            "start":{"type":"InstructionStanza","text":0,"next":["1"]},
            "1":{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]},
-           "2":{"type":"InstructionStanza","text":4,"next":["end"]},
+           "2":{"type":"InstructionStanza","text":4,"next":["end"], "link":0},
            "3":{"type":"InstructionStanza","text":5,"next":["end"]},
            "end":{"type":"EndStanza"}
          },
-         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "Hello, [glossary:world]"]
+         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "Hello, [glossary:world]"],
+         "links":[
+          {
+          "dest": "https://gov.uk/",
+           "title": "test link",
+           "window": true,
+           "leftbar": true,
+           "id": 0
+         }
+         ]
         }
         """.stripMargin
 
@@ -108,6 +119,23 @@ class OcelotProcessSpec extends UnitSpec {
       var html = process.getInternalHTML(stanza)
       assert(html.contentType == "text/html")
       assert(html.body == "Hello, world")
+    }
+
+    "know its links" in {
+      val links = process.links
+
+      assert(links.size == 1)
+      assert(links(0).href == "https://gov.uk/")
+      assert(links(0).title == "test link")
+
+    }
+
+    "wrap a link" in {
+
+      val stanza = process.getStanza("2")
+      val html = process.getExternalHTML(stanza)
+
+      assert(html.body == """<a href="https://gov.uk/">External</a>""")
     }
 
   }

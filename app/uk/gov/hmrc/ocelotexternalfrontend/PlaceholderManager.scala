@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 import play.api.Logger
-import play.twirl.api.Html
 
 import scalatags.Text.all._
 
@@ -29,7 +28,7 @@ object PlaceholderManager {
 
   private val log = Logger(PlaceholderManager.getClass)
 
-  def convert(in: String): Html = {
+  def convert(in: String): StringBuilder = {
     val result = new StringBuilder()
     var startIndex = 0
     var inside = false
@@ -63,7 +62,7 @@ object PlaceholderManager {
       result.append(in.substring(startIndex, in.length))
     }
 
-    Html.apply(result.toString)
+    result
   }
 
   private def handlePlaceholder(parts: Seq[String]) = {
