@@ -88,6 +88,7 @@
     <p><a href="@Tools.buildPath(id, Tools.calculateBack(path))" class="link-back">@messages("link.backOne")</a></p>
 
     @for(stanza <- stanzas) {
+        <!-- stanza id "@stanza.id" -->
         @drawStanza(stanza)
     }
 
