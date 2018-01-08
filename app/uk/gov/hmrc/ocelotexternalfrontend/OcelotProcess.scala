@@ -22,11 +22,26 @@ import play.twirl.api.Html
 import uk.gov.hmrc.ocelotexternalfrontend.types._
 
 import scala.collection.mutable.ListBuffer
+import scalatags.Text
+import scalatags.Text.all._
+
 
 class OcelotProcess(json: JsObject) {
 
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
+
+  val links: Seq[Link] = {
+    val raw = (json \ "links").asOpt[List[JsObject]]
+
+    if (raw.isDefined) {
+      for (f <- raw.get)
+        yield Link((f \ "dest").as[String], (f \ "title").as[String])
+
+    } else {
+      List[Link]()
+    }
+  }
 
   val flow: Map[String, Stanza] = (for (f <- (json \ "flow").as[JsObject].fields)
     yield {
@@ -55,7 +70,7 @@ class OcelotProcess(json: JsObject) {
   // Parse the flow into a bunch of Stanza types
 
   def stanzasForPath(path: String): Seq[Stanza] = {
-    val parts = for(s <- path.split("/") if s.matches("^\\d+$"))
+    val parts = for (s <- path.split("/") if s.matches("^\\d+$"))
       yield s.toInt
 
     var index = 0
@@ -103,14 +118,27 @@ class OcelotProcess(json: JsObject) {
 
   def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
 
-  def getInternalHTML(stanza: Stanza): Html = PlaceholderManager.convert(getPhrase(stanza.text))
-
-  def getExternalHTML(stanza: Stanza): Html = PlaceholderManager.convert(getPhrase(stanza.text, webchat = true))
-
   def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 
-  def getPhraseHtml(id: Int, webchat: Boolean = false): Html = PlaceholderManager.convert(getPhrase(id, webchat))
+  def getInternalHTML(stanza: Stanza): Html = Html.apply(PlaceholderManager.convert(getPhrase(stanza.text)).toString)
+
+  def getExternalHTML(stanza: Stanza): Html = {
+    if (stanza.hasLink) {
+      Html.apply(
+        wrapWithLink(
+          PlaceholderManager.convert(
+            getPhrase(stanza.text, webchat = true)
+          ), stanza.link.get)
+          .toString
+      )
+    } else {
+      Html.apply(PlaceholderManager.convert(getPhrase(stanza.text, webchat = true)).toString)
+    }
+  }
+
+  def wrapWithLink(raw: StringBuilder, id: Int): String = a(href := links(id).href)(raw.toString).toString
+
+  def getPhraseHtml(id: Int, webchat: Boolean = false): Html = Html.apply(PlaceholderManager.convert(getPhrase(id, webchat)).toString)
 
   def getAllStanzas: Map[String, Stanza] = flow
-
 }

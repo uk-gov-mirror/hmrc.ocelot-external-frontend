@@ -23,6 +23,9 @@ abstract class Stanza(idStr: String, json: JsObject) {
   val text: Int = -1
   val kind: String
   val next: Seq[String] = List[String]()
+  val link: Option[Int] = (json \ "link").asOpt[Int]
+  val hasLink: Boolean = link.isDefined
+
   def isQuestion: Boolean = false
 
   def isTerminal: Boolean = next.isEmpty

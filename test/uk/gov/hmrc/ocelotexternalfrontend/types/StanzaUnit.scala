@@ -25,6 +25,8 @@ class StanzaUnit extends UnitSpec {
   private val endJson = Json.parse("""{"id":"end", "type":"EndStanza"}""").as[JsObject]
   private val questionJson = Json.parse("""{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]}""").as[JsObject]
   private val importantJson = Json.parse("""{"type":"ImportantStanza","text":1,"next":["1"]}""").as[JsObject]
+  private val linkJson = Json.parse("""{"type":"ImportantStanza","link":1,"text":1,"next":["1"]}""").as[JsObject]
+
 
   "An Instruction Stanza" should {
     "Know it's text, next" in {
@@ -59,5 +61,19 @@ class StanzaUnit extends UnitSpec {
         assert(stanza.kind == "callout")
         assert(stanza.subkind == "important")
       }
+  }
+
+  "A stanza with a link" should {
+    "know its link id" in {
+      val stanza = new CalloutStanza("test", linkJson)
+      assert(stanza.link.isDefined)
+      assert(stanza.link.get == 1)
+      assert(stanza.hasLink)
+    }
+    "not have a link in some curcumstances" in {
+      val stanza = new CalloutStanza("test", importantJson)
+      assert(stanza.link.isEmpty)
+      assert(!stanza.hasLink)
+    }
   }
 }
