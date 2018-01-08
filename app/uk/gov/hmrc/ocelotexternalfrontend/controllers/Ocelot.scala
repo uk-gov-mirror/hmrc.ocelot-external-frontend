@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,11 +40,6 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
         implicit val process: OcelotProcess = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/" + id + ".json"))
         var targetPath = path
 
-/*
-        if (targetPath == "") {
-          targetPath = "/"
-        }
-*/
         if (q.isDefined) {
           if (targetPath.last != '/') {
             targetPath += "/"

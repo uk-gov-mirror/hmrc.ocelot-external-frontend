@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     "show a form" in {
       val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
-      assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/ocelot/oct90001/")
+      assert(html.getElementsByTag("form").attr("action") == "/ocelot-external-frontend/oct90001/")
     }
 
     "Give radios the right values" in {
@@ -121,7 +121,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val back = html.select(".link-back")
 
       assert(back.size() == 1)
-      assert(back.get(0).attr("href") == "/ocelot-external-frontend/ocelot/oct90001/")
+      assert(back.get(0).attr("href") == "/ocelot-external-frontend/oct90001/")
     }
   }
 
@@ -176,7 +176,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val back = html.select(".link-back")
 
       assert(back.size() == 1)
-      assert(back.get(0).attr("href") == "/ocelot-external-frontend/ocelot/oct90001/0")
+      assert(back.get(0).attr("href") == "/ocelot-external-frontend/oct90001/0")
     }
   }
 
