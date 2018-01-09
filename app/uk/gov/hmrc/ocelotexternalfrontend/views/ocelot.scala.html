@@ -83,9 +83,20 @@
     </div>
 }
 
+@hasQuestion = @{
+    stanzas.exists(_.kind == "question")
+}
+
+
 @main_template(title = "Ocelot", navTitle= Some(process.title), contentHeader = Some(phraseBanner)) {
 
-    <p><a href="@Tools.buildPath(id, Tools.calculateBack(path))" class="link-back">@messages("link.backOne")</a></p>
+    @if(stanzas.head.id != "start") {
+        <p><a href="@Tools.buildPath(id, Tools.calculateBack(path))" class="link-back">@messages("link.backOne")</a></p>
+    }
+
+    @if(!hasQuestion) {
+        <h1 class="heading-medium">Solution</h1>
+    }
 
     @for(stanza <- stanzas) {
         <!-- stanza id "@stanza.id" -->
