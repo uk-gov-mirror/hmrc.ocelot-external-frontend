@@ -92,18 +92,23 @@
 
 @main_template(title = "Ocelot", navTitle= Some(process.title), contentHeader = Some(phraseBanner)) {
 
-    @if(stanzas.head.id != "start") {
-        <p><a href="@Tools.buildPath(id, Tools.calculateBack(path))" class="link-back">@messages("link.backOne")</a></p>
-    }
+    @defining(stanzas.head.id == "start") { first : Boolean =>
 
-    @if(!hasQuestion) {
-        <h1 class="heading-medium">Solution</h1>
-    }
+        @if(!first) {
+            <p><a href="@Tools.buildPath(id, Tools.calculateBack(path))" class="link-back">@messages("link.backOne")</a></p>
+        }
 
-    @for(stanza <- stanzas) {
-        <!-- stanza id "@stanza.id" -->
-        @drawStanza(stanza)
-    }
+        @if(!hasQuestion) {
+            <h1 class="heading-medium">Solution</h1>
+        }
 
-    <p><a href="@Tools.buildPath(id,"/")" class="home" >@messages("link.backToStart")</a></p>
+        @for(stanza <- stanzas) {
+            <!-- stanza id "@stanza.id" -->
+            @drawStanza(stanza)
+        }
+
+        @if(!first) {
+            <p><a href="@Tools.buildPath(id, "/")" class="home" >@messages("link.backToStart")</a></p>
+        }
+    }
 }

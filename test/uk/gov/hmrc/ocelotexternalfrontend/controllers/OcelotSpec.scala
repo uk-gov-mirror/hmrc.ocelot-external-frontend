@@ -98,13 +98,12 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       assert(labels.get(1).text() == "No - they do not have a tea bag")
     }
 
-    "include a link back to the start" in {
+    "not include a link back to the start" in {
       val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val home = html.select(".home")
-      assert(home.size == 1)
-      assert(home.get(0).text == Messages("link.backToStart"))
+      assert(home.size == 0)
     }
   }
 
@@ -151,7 +150,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
 
     "include a link back to the start" in {
-      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/1", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val home = html.select(".home")
