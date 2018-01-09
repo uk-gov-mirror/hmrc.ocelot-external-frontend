@@ -4,9 +4,9 @@
     "id": "oct90002",
     "ocelot": 1,
     "lastAuthor": "6075844",
-    "lastUpdate": 1513074862918,
-    "filename": "oct90002.19.2.js",
-    "version": 19
+    "lastUpdate": 1515512165716,
+    "filename": "oct90002.js",
+    "version": 21
   },
   "flow": {
     "1": {
@@ -14,457 +14,362 @@
       "text": 7,
       "answers": [8, 6],
       "next": ["2", "16"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "2": {
       "type": "QuestionStanza",
       "text": 9,
       "answers": [10, 11],
       "next": ["3", "10"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "3": {
       "type": "QuestionStanza",
       "text": 12,
       "answers": [13, 14, 15],
       "next": ["4", "7", "52"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "4": {
       "type": "QuestionStanza",
       "text": 16,
       "answers": [10, 11],
       "next": ["5", "6"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "5": {
       "type": "QuestionStanza",
       "text": 17,
       "answers": [18, 19],
-      "next": ["end", "end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "next": ["https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=online", "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal"],
+      "stack": true
     },
     "6": {
       "type": "InstructionStanza",
       "text": 20,
       "next": ["9"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "7": {
       "type": "InstructionStanza",
       "text": 22,
       "next": ["end"],
       "link": 2,
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "8": {
       "type": "QuestionStanza",
-      "text": 36,
+      "text": 39,
       "answers": [10, 11],
       "next": ["36", "35"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "9": {
       "type": "InstructionStanza",
       "text": 21,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "10": {
       "type": "QuestionStanza",
       "text": 24,
-      "answers": [13, 14, 15],
+      "answers": [25, 26, 27],
       "next": ["11", "54", "54"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "11": {
       "type": "QuestionStanza",
       "text": 16,
       "answers": [10, 11],
       "next": ["15", "14"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "12": {
       "type": "InstructionStanza",
-      "text": 30,
+      "text": 33,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "13": {
       "type": "InstructionStanza",
-      "text": 31,
+      "text": 34,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "14": {
       "type": "InstructionStanza",
       "text": 20,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "15": {
       "type": "InstructionStanza",
-      "text": 25,
+      "text": 28,
       "next": ["51"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "16": {
       "type": "QuestionStanza",
       "text": 9,
       "answers": [10, 11],
       "next": ["7", "17"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "17": {
       "type": "InstructionStanza",
-      "text": 33,
+      "text": 36,
       "next": ["18"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "18": {
       "type": "InstructionStanza",
-      "text": 34,
+      "text": 37,
       "next": ["19"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "19": {
       "type": "InstructionStanza",
-      "text": 35,
+      "text": 38,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "20": {
       "type": "QuestionStanza",
-      "text": 47,
+      "text": 51,
       "answers": [10, 11],
       "next": ["21", "31"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "21": {
       "type": "QuestionStanza",
-      "text": 48,
-      "answers": [49, 50],
+      "text": 52,
+      "answers": [53, 54],
       "next": ["22", "28"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "22": {
       "type": "InstructionStanza",
-      "text": 51,
+      "text": 55,
       "next": ["23"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "23": {
       "type": "InstructionStanza",
-      "text": 52,
+      "text": 56,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
+    },
+    "24": {
+      "type": "InstructionStanza",
+      "text": 48,
+      "next": ["end"],
+      "stack": true
     },
     "28": {
       "type": "QuestionStanza",
-      "text": 53,
+      "text": 57,
       "answers": [10, 11],
       "next": ["22", "29"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "29": {
       "type": "InstructionStanza",
-      "text": 54,
+      "text": 58,
       "next": ["30"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "30": {
       "type": "InstructionStanza",
-      "text": 55,
+      "text": 59,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "31": {
       "type": "QuestionStanza",
-      "text": 56,
+      "text": 60,
       "answers": [10, 11],
       "next": ["32", "22"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "32": {
       "type": "InstructionStanza",
-      "text": 57,
+      "text": 61,
       "next": ["33"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "33": {
       "type": "InstructionStanza",
-      "text": 58,
+      "text": 62,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "35": {
       "type": "QuestionStanza",
-      "text": 37,
+      "text": 40,
       "answers": [10, 11],
       "next": ["37", "43"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "36": {
       "type": "QuestionStanza",
-      "text": 38,
+      "text": 49,
       "answers": [10, 11],
       "next": ["37", "42"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "37": {
       "type": "QuestionStanza",
-      "text": 39,
+      "text": 41,
       "answers": [10, 11],
       "next": ["38", "41"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "38": {
       "type": "InstructionStanza",
-      "text": 40,
+      "text": 42,
       "next": ["39"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "39": {
       "type": "InstructionStanza",
-      "text": 41,
+      "text": 43,
       "next": ["40"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "40": {
       "type": "InstructionStanza",
-      "text": 42,
+      "text": 44,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "41": {
       "type": "InstructionStanza",
-      "text": 43,
+      "text": 45,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "42": {
       "type": "InstructionStanza",
-      "text": 44,
+      "text": 50,
       "next": ["44"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "43": {
       "type": "InstructionStanza",
-      "text": 45,
+      "text": 46,
       "next": ["44"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "44": {
       "type": "InstructionStanza",
-      "text": 46,
-      "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "text": 47,
+      "next": ["24"],
+      "stack": true
     },
     "45": {
       "type": "QuestionStanza",
-      "text": 59,
+      "text": 63,
       "answers": [10, 11],
       "next": ["46", "47"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "46": {
       "type": "InstructionStanza",
-      "text": 60,
+      "text": 64,
       "next": ["48"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "47": {
       "type": "InstructionStanza",
-      "text": 43,
+      "text": 45,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "48": {
       "type": "InstructionStanza",
-      "text": 61,
+      "text": 65,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "49": {
       "type": "InstructionStanza",
-      "text": 62,
+      "text": 66,
       "next": ["end"],
       "link": 1,
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "51": {
       "type": "InstructionStanza",
-      "text": 26,
+      "text": 29,
       "next": ["53"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "52": {
       "type": "InstructionStanza",
       "text": 23,
       "next": ["end"],
       "link": 0,
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "53": {
       "type": "QuestionStanza",
-      "text": 27,
-      "answers": [28, 29],
+      "text": 30,
+      "answers": [31, 32],
       "next": ["12", "13"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "54": {
       "type": "InstructionStanza",
-      "text": 32,
+      "text": 35,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": true
     },
     "55": {
       "type": "InstructionStanza",
-      "text": 63,
+      "text": 67,
       "next": ["end"],
-      "stack": true,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "link": 3,
+      "stack": true
     },
     "start": {
       "type": "QuestionStanza",
       "text": 0,
       "answers": [1, 2, 3, 4, 5, 6],
       "next": ["1", "49", "55", "20", "8", "45"],
-      "stack": false,
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "stack": false
     },
     "end": {
-      "type": "EndStanza",
-      "lastAuthor": "6075844",
-      "lastUpdate": "20171212103423"
+      "type": "EndStanza"
     }
   },
   "phrases": [
-    ["Ask the customer what is the reason they are unable to log in?", "Please tell us why you're having difficulties signing in"], "Forgotten [glossary:user ID]", "Forgotten password", "Forgotten user ID and password", "Access code or identity verification problems", "Requested [glossary:user ID] by post not received ", "Other", ["Ask the customer which online HMRC service are they trying to access?", "Which online service are you trying to sign in to?"], "Self Assessment ", ["Ask the customer if they have their password?", "Do you have your password?"], "Yes", "No", ["Ask the customer what kind of account they have?", "What type of online account do you have?"], "[glossary:Individual]", "[glossary:Agent]", "[glossary:Organisation]", ["Ask the customer if they have their [glossary:UTR] number", "Do you have your Unique Taxpayer Reference (UTR) number?"],
-    ["Ask the customer how they would like their user ID reissued?", "How would you like your user ID re-issued?"], "[link:Online:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=online]", "[link:By post:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal]", ["Tell the customer if they do not have the UTR number we need to transfer them to an advisor", "If you don't have your UTR number or you've changed your email or postal address you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
+    ["Ask the customer what is the reason they are unable to log in?", "Why are you having difficulties signing in"], "Forgotten [glossary:user ID]", "Forgotten password", "Forgotten user ID and password", "Access code or identity verification problems", "Requested [glossary:user ID] by post not received ", "Other", ["Ask the customer which online HMRC service are they trying to access?", "Which online service are you trying to sign in to?"], "Self Assessment ", ["Ask the customer if they have their password?", "Do you have your password?"], "Yes", "No", ["Ask the customer what kind of account they have?", "What type of online account do you have?"], "[glossary:Individual] including personal tax account, tax credits, Self Assessment, and Child Benefit", "[glossary:Agent] including accountants, payroll bureau, and bookkeepers", "[glossary:Organisation] for example limited companies, partnerships, or charities", ["Ask the customer if they have their [glossary:UTR] number", "Do you have your Unique Taxpayer Reference (UTR) number?"],
+    ["Ask the customer how they would like their user ID reissued?", "How would you like your user ID re-issued?"], "Online", "By post", ["Tell the customer if they do not have the UTR number we need to transfer them to an advisor", "You will need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq] if you don't have your UTR number, you have changed your email address, or you have changed your postal address"],
     ["Tell the customer if they do not have their UTR or they have changed their email or postal address we need to transfer them to an advisor.", ""],
-    ["Tell the customer if they have their password they can use our lost user ID service", "If you have your password you can use our lost user ID service"],
-    ["Tell the customer if they have their password they can use our lost user ID service for their Organisation account", "If you have your password you can use our [link:lost user ID service for organisations:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=organisation]"],
-    ["Ask the customer what type account they have?", "What type of online account do you have?"],
-    ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. this will ask them a series of questions related to their financial history to confirm their ID", "If you need urgent access to your account you can use the GOV.UK Verify service to sign in. If you've not registered to use this service, you'll need to give information from official documents and possibly answer some questions about your financial situation to verify your identity.\n\n"],
-    ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. if they do not have these details to hand we can send their ID by post. ", "If you don't want to use the GOV.UK Verify service, we can send your user ID by post. We'll send it within 7 days to the address on your Self Assessment account."], "How do you want to get access to your account?", "Gov.uk Verify", "Post", ["Ask the customer how they would like to gain access to their account? Gov.uk Verify", "[link:Use GOV.UK Verify to sign in:https://www.signin.service.gov.uk/start]"],
+    ["Tell the customer if they have their password they can use our lost user ID service", "You can [link:recover your User ID online:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=agent]"],
+    ["Tell the customer if they have their password they can use our lost user ID service for their Organisation account", "You can recover [link:recover your organisation's User ID online:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=organisation]"],
+    ["Ask the customer what type account they have?", "What type of online account do you have?"], "[glossary:Individual]", "[glossary:Agent]", "[glossary:Organisation]", ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. this will ask them a series of questions related to their financial history to confirm their ID", "If you need urgent access to your account you can use the [link:GOV.UK Verify:https://www.tax.service.gov.uk/ida/sa/login] service to sign in. If you've not registered to use this service, you'll need to give information from official documents and possibly answer some questions about your financial situation to verify your identity."],
+    ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. if they do not have these details to hand we can send their ID by post. ", "If you don't want to use GOV.UK Verify, we'll send your user ID by post which can take up to 7 working days (or longer if you live abroad). We'll send it to the address on your Self Assessment account"], "How do you want to get access to your account?", "Gov.uk Verify", "Post", ["Ask the customer how they would like to gain access to their account? Gov.uk Verify", "[link:Use GOV.UK Verify to sign in:https://www.signin.service.gov.uk/start]"],
     ["Ask the customer how they would like to gain access to their account? by post", "[link:Request a user ID to be sent by post:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal]"],
     ["Tell the customer as they have donâ€™t have their User I.D and Password they need to contact us.", "Because you don't have your user ID and password you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
-    ["Tell the customer if they do not have the UTR number ", "Because you don't have your user ID or your password you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
+    ["Tell the customer if they do not have the UTR number ", "You'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
     ["Tell the customer they will need to contact us", ""],
     ["Tell the customer we can transfer them to an advisor (OSH)", ""],
     ["Ask the customer if they are based in the United Kingdom", "Do you live in the UK?"],
     ["Ask the customer if they requested their user ID before [timescale:3 weeks:date_ago] ", "Did you request your user ID before [timescale:3 weeks:date_ago]?"],
-    ["Ask the customer if they requested their user ID before [timescale:2 weeks:date_ago] ", "Did you request your user ID before [timescale:2 weeks:date_ago]?"],
     ["Ask the customer if they changed their address within 72 hours of requesting the user ID?", "Did you change your address within 72 hours of requesting your user ID? "],
     ["Tell the customer changes to address can take up to 72 hours ", "It can take up to 72 hours for the system to update after a change of address."],
     ["Tell the customer they need to allow this time for our systems to update", ""],
     ["Tell the customer they will need to submit another request for the user ID to be sent out by post", "You need to ask us to post your user ID to you again. You'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
     ["Tell the customer we need to transfer them to an advisor (OSH) ?", "You'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
+    ["Tell the customer it can take up to 3 weeks to receive their user id by post if sent to a non UK address.", "It can take up to 3 weeks for you to receive your user ID by post if it was sent to an address outside the UK. "],
+    ["Tell the customer to get back in touch if they do not receive the user ID after these times.", "Contact us if you haven't received your user ID after this time."],
+    ["Tell the customer they can register for SA with Gov.UK Verify", "If you've already registered for Self Assessment and don't want to wait for replacements you can complete Self Assessment as an individual using [link:GOV.UK Verify:https://www.tax.service.gov.uk/ida/sa/login]"],
+    ["Ask the customer if they requested their user ID before [timescale:2 weeks:date_ago] ", "Did you request your user ID before [timescale:2 weeks:date_ago]?"],
     ["Tell the customer it can take up to 2 weeks to receive their user id by post if sent to a UK address.", "It can take up to 2 weeks for you to receive your user ID by post if it was sent to a UK address. "],
-    ["Tell the customer it can take up to 3 weeks to receive their user id by post if sent to a non UK address.", "It can take up to 3 weeks for you to receive your user ID by post if it was sent to a non-UK address. "],
-    ["Tell the customer to get back in touch if they do not receive the user ID after these times.", "Contact us if you have not received your user ID after this time."],
     ["Ask the customer if they have received an access code [glossary:access code]?", "Have you received an access code [glossary:access code]?"],
     ["Ask the customer what is the issue they are having", "Please select one of the following to tell us more about your problem"], "Error message after submitting the access code", "Difficulties with the identity verification", ["Tell the customer to select 'get help with this page' on the page that is displaying the error", "If you select the 'get help with this page' link on the page where you were having difficulties, you'll be able to report the problem. "],
-    ["Tell the customer they will hear back in 48 hours", "It can take us up to 48 hours to respond."], "Have you been able to enter your National Insurance number, name and date of birth and move to the next stage", ["Tell the customer we will need to check the details we hold", "We need to check the details we hold you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
+    ["Tell the customer they will hear back in 48 hours", "It can take us up to 48 hours to respond."], "Have you been able to enter your National Insurance number, name and date of birth and move to the next stage", ["Tell the customer we'll need to check the details we hold", "We need to check the details we hold you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
     ["Tell the customer we can transfer them to an advisor (taxes)", ""],
     ["Ask the customer if they have changed their phone number?", "Have you changed your phone number?"],
     ["Tell the customer they can now update their phone number online", "If you no longer have the app or phone that you used to set up security you should select the link \"I can't get my access code\" from the access code screen."],
@@ -472,8 +377,8 @@
     ["Ask the customer if they have tried to log in more than three times?", "Have you tried to sign in more than 3 times?"],
     ["Tell the customer if they have entered an incorrect password 3 times they will have been automatically locked out", "If you've entered your password incorrectly more than 3 times the system will lock you out. You'll have to wait 2 hours before you try and sign in to your account again."],
     ["Tell the customer if they have entered an incorrect password 3 times to allow 2 hours and then try logging into their account again.", ""],
-    ["Tell the customer they can complete a lost password form at GOV.UK", "You'll need to complete a lost password form."],
-    ["Tell the customer they need to complete the lost password and user ID form", "You'll need to [link:complete a lost password and user ID form:https://www.tax.service.gov.uk/government-gateway-lost-credentials-frontend/choose-your-account?continue=%2Faccount&origin=unknown&forgottenOption=UserIdAndPassword]"]
+    ["Tell the customer they can complete a lost password form at GOV.UK", "Recover your password"],
+    ["Tell the customer they need to complete the lost password and user ID form", "Recover your user ID and password"]
   ],
   "contacts": [],
   "howto": [],
@@ -496,5 +401,12 @@
     "leftbar": false,
     "always": false,
     "id": 2
+  }, {
+    "dest": "https://www.tax.service.gov.uk/government-gateway-lost-credentials-frontend/choose-your-account?continue=%2Fpersonal-account%2Fdo-uplift%3FredirectUrl%3D%252Fpersonal-account&origin=PERTAX&forgottenOption=UserIdAndPassword",
+    "title": "Lost User ID & Password",
+    "window": true,
+    "leftbar": false,
+    "always": false,
+    "id": 3
   }]
 }
