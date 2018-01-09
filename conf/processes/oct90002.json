@@ -49,7 +49,10 @@
       "type": "QuestionStanza",
       "text": 17,
       "answers": [18, 19],
-      "next": ["end", "end"],
+      "next": [
+        "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=online",
+        "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal"
+      ],
       "stack": true,
       "lastAuthor": "6075844",
       "lastUpdate": "20171212103423"
