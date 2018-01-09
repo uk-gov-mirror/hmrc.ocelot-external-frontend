@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend
 
-import play.twirl.api.Html
+import uk.gov.hmrc.ocelotexternalfrontend.types.ExternalLinkStanza
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OcelotProcessSpec extends UnitSpec {
@@ -29,10 +29,10 @@ class OcelotProcessSpec extends UnitSpec {
            "start":{"type":"InstructionStanza","text":0,"next":["1"]},
            "1":{"type":"QuestionStanza","text":1,"answers":[2,3],"next":["2","3"]},
            "2":{"type":"InstructionStanza","text":4,"next":["end"], "link":0},
-           "3":{"type":"InstructionStanza","text":5,"next":["end"]},
+           "3":{"type":"QuestionStanza","text":5,"next":["https://gov.uk/"], "answers":[6]},
            "end":{"type":"EndStanza"}
          },
-         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "Hello, [glossary:world]"],
+         "phrases":[["Test process", "External text"], "Is this a question", "Yes", "No", ["Internal", "External"], "Hello, [glossary:world]", "External link"],
          "links":[
           {
           "dest": "https://gov.uk/",
@@ -60,7 +60,7 @@ class OcelotProcessSpec extends UnitSpec {
     }
 
     "have a phrasebank" in {
-      assert(process.phrases.lengthCompare(6) == 0)
+      assert(process.phrases.length == 7)
       assert(process.getPhrase(0) == "Test process")
       assert(process.getPhrase(4) == "Internal")
     }
@@ -78,7 +78,7 @@ class OcelotProcessSpec extends UnitSpec {
       val path = "/0"
       val stanzas = process.stanzasForPath(path)
 
-      assert(stanzas.lengthCompare(2) == 0)
+      assert(stanzas.length == 2)
       assert(stanzas(0).id == "2")
       assert(stanzas(1).id == "end")
     }
@@ -87,9 +87,8 @@ class OcelotProcessSpec extends UnitSpec {
       val path = "/1"
       val stanzas = process.stanzasForPath(path)
 
-      assert(stanzas.lengthCompare(2) == 0)
+      assert(stanzas.length == 1)
       assert(stanzas(0).id == "3")
-      assert(stanzas(1).id == "end")
     }
 
     "Get text for a stanza" in {
@@ -127,15 +126,18 @@ class OcelotProcessSpec extends UnitSpec {
       assert(links.size == 1)
       assert(links(0).href == "https://gov.uk/")
       assert(links(0).title == "test link")
-
     }
 
     "wrap a link" in {
-
       val stanza = process.getStanza("2")
       val html = process.getExternalHTML(stanza)
-
       assert(html.body == """<a href="https://gov.uk/">External</a>""")
+    }
+
+    "Give an external link stanza for a path that needs it" in {
+      val stanzas = process.stanzasForPath("/1/0")
+     // stanzas.length shouldBe 1
+      stanzas.head shouldBe a[ExternalLinkStanza]
     }
 
   }

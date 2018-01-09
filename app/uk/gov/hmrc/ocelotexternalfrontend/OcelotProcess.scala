@@ -81,10 +81,11 @@ class OcelotProcess(json: JsObject) {
 
     while (true) {
       result += stanza
-      if (stanza.next.isEmpty) {
+      if (stanza.isTerminal) {
         // If we've got nowhere left to go, then return what we've got
         return result
-      } else if (stanza.next.length == 1) {
+        //      } else if (stanza.next.length == 1) {
+      } else if (!stanza.isQuestion) {
         // Exactly one route out. Get the next stanza
         stanza = getStanza(stanza.next.head)
       } else {
@@ -112,7 +113,14 @@ class OcelotProcess(json: JsObject) {
     throw new IllegalStateException("Should not be able to get here")
   }
 
-  def getStanza(id: String): Stanza = flow(id)
+  def getStanza(id: String): Stanza = {
+    val idRe = """^(start|end|\d+)$""".r
+
+    id match {
+      case idRe(_) => flow(id)
+      case _ => new ExternalLinkStanza(id,id)
+    }
+  }
 
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 

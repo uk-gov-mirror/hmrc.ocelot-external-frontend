@@ -31,6 +31,7 @@
                 </legend>
 
                 @for((answerId, i) <- stanza.answers.zipWithIndex) {
+
                     <div class="multiple-choice">
                         <input type='radio' name="q" value="@i" id="q-@i">
 
@@ -38,6 +39,7 @@
                         @process.getPhraseHtml(answerId)
                         </label>
                     </div>
+
                 }
             </fieldset>
         </div>

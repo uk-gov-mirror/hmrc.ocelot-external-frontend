@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.ocelotexternalfrontend.types
 
-import play.api.libs.json.JsObject
+import play.api.libs.json.{JsObject, Json}
 
 abstract class Stanza(idStr: String, json: JsObject) {
   val id: String = idStr
@@ -38,15 +38,15 @@ class EndStanza(id: String, json: JsObject) extends Stanza(id, json) {
 
 class InstructionStanza(id: String, json: JsObject) extends Stanza(id, json) {
   override val text: Int = (json \ "text").as[Int]
-  val kind = "instruction"
   override val next: Seq[String] = (json \ "next").as[List[String]]
+  val kind = "instruction"
 }
 
 class QuestionStanza(id: String, json: JsObject) extends Stanza(id, json) {
   override val isQuestion: Boolean = true
   override val text: Int = (json \ "text").as[Int]
-  val kind = "question"
   override val next: Seq[String] = (json \ "next").as[List[String]]
+  val kind = "question"
   val answers: Seq[Int] = (json \ "answers").as[List[Int]]
 
   def answer(id: Int): Int = answers(id)
@@ -58,4 +58,10 @@ class CalloutStanza(id: String, json: JsObject) extends InstructionStanza(id, js
     val t = (json \ "type").as[String]
     t.substring(0, t.length - "Stanza".length).toLowerCase
   }
+}
+
+class ExternalLinkStanza(id: String, dest: String) extends Stanza(id, Json.parse("{}").as[JsObject]) {
+  override val kind: String = "externalLink"
+  override val isTerminal = true
+  val href: String = dest
 }

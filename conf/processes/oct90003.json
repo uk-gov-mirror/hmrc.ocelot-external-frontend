@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "howto": [],
+    "contacts": [],
+    "links": [],
+    "title": "Short test process",
+    "id": "oct90001",
+    "ocelot": 1,
+    "lastAuthor": "6075844",
+    "lastUpdate": 1500298931016,
+    "version": 4,
+    "filename": "oct90003.js"
+  },
+  "flow": {
+    "start": {
+      "type": "QuestionStanza",
+      "text": 0,
+      "answers": [1],
+      "next": ["https://gov.uk/"]
+    },
+    "end": {
+      "type": "EndStanza"
+    }
+  },
+  "phrases": [
+    "Test question",
+    "Test answer"
+  ]
+}

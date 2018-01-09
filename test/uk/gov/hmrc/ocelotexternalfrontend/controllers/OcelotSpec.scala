@@ -25,6 +25,8 @@ import play.api.{Configuration, Environment, Logger}
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
+import scala.util.Success
+
 
 class OcelotSpec extends UnitSpec with WithFakeApplication {
 
@@ -177,6 +179,16 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       assert(back.size() == 1)
       assert(back.get(0).attr("href") == "/ocelot-external-frontend/oct90001/0")
+    }
+  }
+
+  "GET /oct90003/0" should {
+    "Give a redirect" in {
+      val result = controller.ocelot("oct90003", "/0", None).apply(fakeRequest)
+
+      status(result) shouldBe Status.FOUND
+      header("Location", result) shouldBe Some("https://gov.uk/")
+
     }
   }
 

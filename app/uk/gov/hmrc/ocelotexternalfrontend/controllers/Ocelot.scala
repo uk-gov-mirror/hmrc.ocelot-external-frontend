@@ -22,6 +22,7 @@ import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
+import uk.gov.hmrc.ocelotexternalfrontend.types.ExternalLinkStanza
 import uk.gov.hmrc.ocelotexternalfrontend.{InputStreamProcessSource, OcelotProcess, views}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
@@ -49,8 +50,14 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
 
         val stanzas = process.stanzasForPath(targetPath)
 
-        log.info(s"Handling request for $targetPath")
-        Future.successful(Ok(views.html.ocelot(stanzas, targetPath, id)))
+        if (stanzas.length == 1 && stanzas.head.kind == "externalLink") {
+          log.info(s"")
+          val extLink: ExternalLinkStanza = stanzas.head.asInstanceOf[ExternalLinkStanza]
+          Future.successful(Redirect(extLink.href, FOUND))
+        } else {
+          log.info(s"Handling request for $targetPath")
+          Future.successful(Ok(views.html.ocelot(stanzas, targetPath, id)))
+        }
       } else {
         Future.successful(NotFound("Process not found"))
       }

@@ -27,7 +27,6 @@ class StanzaUnit extends UnitSpec {
   private val importantJson = Json.parse("""{"type":"ImportantStanza","text":1,"next":["1"]}""").as[JsObject]
   private val linkJson = Json.parse("""{"type":"ImportantStanza","link":1,"text":1,"next":["1"]}""").as[JsObject]
 
-
   "An Instruction Stanza" should {
     "Know it's text, next" in {
       val stanza = new InstructionStanza("test", instructionJson)
@@ -70,10 +69,18 @@ class StanzaUnit extends UnitSpec {
       assert(stanza.link.get == 1)
       assert(stanza.hasLink)
     }
-    "not have a link in some curcumstances" in {
+    "not have a link in some circumstances" in {
       val stanza = new CalloutStanza("test", importantJson)
       assert(stanza.link.isEmpty)
       assert(!stanza.hasLink)
+    }
+  }
+
+  "An external link stanza" should {
+    "know its destination" in {
+      val stanza = new ExternalLinkStanza("test", "https://gov.uk/")
+      assert(stanza.kind == "externalLink")
+      assert(stanza.href == "https://gov.uk/")
     }
   }
 }
