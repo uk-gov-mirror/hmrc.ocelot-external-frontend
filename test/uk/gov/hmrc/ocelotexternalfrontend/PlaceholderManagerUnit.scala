@@ -83,7 +83,7 @@ class PlaceholderManagerUnit extends UnitSpec {
 
       val today = LocalDate.now()
       val twoWeeks = today.plus(2, ChronoUnit.WEEKS)
-      val twoWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(twoWeeks)
+      val twoWeekString = PlaceholderManager.formatter.format(twoWeeks)
       assert(html.toString == twoWeekString)
     }
 
@@ -92,7 +92,7 @@ class PlaceholderManagerUnit extends UnitSpec {
 
       val today = LocalDate.now()
       val twoWeeks = today.minus(2, ChronoUnit.WEEKS)
-      val twoWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(twoWeeks)
+      val twoWeekString = PlaceholderManager.formatter.format(twoWeeks)
       assert(html.toString == twoWeekString)
     }
 
@@ -100,7 +100,7 @@ class PlaceholderManagerUnit extends UnitSpec {
       val html = PlaceholderManager.convert("[timescale:bogus:date_ago]")
 
       val today = LocalDate.now()
-      val todayWeekString = DateTimeFormatter.ofPattern("dd MMM YYYY").format(today)
+      val todayWeekString = PlaceholderManager.formatter.format(today)
       assert(html.toString == todayWeekString)
 
     }

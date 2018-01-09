@@ -28,6 +28,8 @@ object PlaceholderManager {
 
   private val log = Logger(PlaceholderManager.getClass)
 
+  val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM YYYY")
+
   def convert(in: String): StringBuilder = {
     val result = new StringBuilder()
     var startIndex = 0
@@ -83,7 +85,6 @@ object PlaceholderManager {
 
   private def timescale(parts: Seq[String]): String = {
     val tsPattern = "^(\\d+)\\s*(day|week)s?$".r
-    val formatter = DateTimeFormatter.ofPattern("dd MMM YYYY")
     val format = parts(1)
     formatter.format(
       parts.head match {
