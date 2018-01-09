@@ -2,3 +2,6 @@
 link.backToStart = Return to start
 link.backOne = Back
 link.nextButton = Continue
+
+app.PhraseBannerFeedback = This is a new service
+app.PhaseBannerFeedbackWithLink = This is a new service - your <a href="{0}">feedback</a> will help us improve it.

@@ -76,21 +76,11 @@
     }
 }
 
-@phraseBanner = {
-    <div class="phase-banner">
-        <p>
-            <strong class="phase-tag">ALPHA</strong>
-            <span>This is a new service - your <a href="#">feedback</a> will help us to improve it.</span>
-        </p>
-    </div>
-}
-
 @hasQuestion = @{
     stanzas.exists(_.kind == "question")
 }
 
-
-@main_template(title = "Ocelot", navTitle= Some(process.title), contentHeader = Some(phraseBanner)) {
+@main_template(title = "Ocelot", navTitle= Some(process.title)) {
 
     @defining(stanzas.head.id == "start") { first : Boolean =>
 
