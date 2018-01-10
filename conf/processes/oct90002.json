@@ -264,7 +264,7 @@
       "type": "QuestionStanza",
       "text": 0,
       "answers": [1, 2, 3, 4, 5],
-      "next": ["1", "49", "55", "8", "45"],
+      "next": ["1", "https://www.tax.service.gov.uk/government-gateway-lost-credentials-frontend/choose-your-account?continue=%2Faccount&origin=unknown&forgottenOption=password", "https://www.tax.service.gov.uk/government-gateway-lost-credentials-frontend/choose-your-account?continue=%2Fpersonal-account%2Fdo-uplift%3FredirectUrl%3D%252Fpersonal-account&origin=PERTAX&forgottenOption=UserIdAndPassword", "8", "45"],
       "stack": false
     },
     "end": {
