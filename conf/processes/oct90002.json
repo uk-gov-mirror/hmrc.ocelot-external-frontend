@@ -1,18 +1,18 @@
 {
   "meta": {
-    "title": "Ocelot Trial POC external guidance",
+    "title": "Problems signing in",
     "id": "oct90002",
     "ocelot": 1,
     "lastAuthor": "6075844",
-    "lastUpdate": 1515512165716,
+    "lastUpdate": 1515598029899,
     "filename": "oct90002.js",
-    "version": 21
+    "version": 22
   },
   "flow": {
     "1": {
       "type": "QuestionStanza",
-      "text": 7,
-      "answers": [8, 6],
+      "text": 6,
+      "answers": [7, 8],
       "next": ["2", "16"],
       "stack": false
     },
@@ -34,27 +34,26 @@
       "type": "QuestionStanza",
       "text": 16,
       "answers": [10, 11],
-      "next": ["5", "6"],
+      "next": ["25", "6"],
       "stack": false
     },
     "5": {
       "type": "QuestionStanza",
-      "text": 17,
-      "answers": [18, 19],
-      "next": ["https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=online", "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal"],
+      "text": 18,
+      "answers": [19, 20, 21],
+      "next": ["https://www.tax.service.gov.uk/ida/sa/login", "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=online", "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal"],
       "stack": true
     },
     "6": {
       "type": "InstructionStanza",
-      "text": 20,
+      "text": 22,
       "next": ["9"],
       "stack": true
     },
     "7": {
       "type": "InstructionStanza",
-      "text": 22,
+      "text": 24,
       "next": ["end"],
-      "link": 2,
       "stack": true
     },
     "8": {
@@ -66,14 +65,14 @@
     },
     "9": {
       "type": "InstructionStanza",
-      "text": 21,
+      "text": 23,
       "next": ["end"],
       "stack": true
     },
     "10": {
       "type": "QuestionStanza",
-      "text": 24,
-      "answers": [25, 26, 27],
+      "text": 26,
+      "answers": [27, 28, 29],
       "next": ["11", "54", "54"],
       "stack": false
     },
@@ -84,27 +83,15 @@
       "next": ["15", "14"],
       "stack": false
     },
-    "12": {
-      "type": "InstructionStanza",
-      "text": 33,
-      "next": ["end"],
-      "stack": true
-    },
-    "13": {
-      "type": "InstructionStanza",
-      "text": 34,
-      "next": ["end"],
-      "stack": true
-    },
     "14": {
       "type": "InstructionStanza",
-      "text": 20,
+      "text": 22,
       "next": ["end"],
       "stack": true
     },
     "15": {
       "type": "InstructionStanza",
-      "text": 28,
+      "text": 30,
       "next": ["51"],
       "stack": false
     },
@@ -133,74 +120,16 @@
       "next": ["end"],
       "stack": true
     },
-    "20": {
-      "type": "QuestionStanza",
-      "text": 51,
-      "answers": [10, 11],
-      "next": ["21", "31"],
-      "stack": false
-    },
-    "21": {
-      "type": "QuestionStanza",
-      "text": 52,
-      "answers": [53, 54],
-      "next": ["22", "28"],
-      "stack": false
-    },
-    "22": {
-      "type": "InstructionStanza",
-      "text": 55,
-      "next": ["23"],
-      "stack": true
-    },
-    "23": {
-      "type": "InstructionStanza",
-      "text": 56,
-      "next": ["end"],
-      "stack": true
-    },
     "24": {
       "type": "InstructionStanza",
       "text": 48,
       "next": ["end"],
       "stack": true
     },
-    "28": {
-      "type": "QuestionStanza",
-      "text": 57,
-      "answers": [10, 11],
-      "next": ["22", "29"],
-      "stack": false
-    },
-    "29": {
+    "25": {
       "type": "InstructionStanza",
-      "text": 58,
-      "next": ["30"],
-      "stack": true
-    },
-    "30": {
-      "type": "InstructionStanza",
-      "text": 59,
-      "next": ["end"],
-      "stack": true
-    },
-    "31": {
-      "type": "QuestionStanza",
-      "text": 60,
-      "answers": [10, 11],
-      "next": ["32", "22"],
-      "stack": false
-    },
-    "32": {
-      "type": "InstructionStanza",
-      "text": 61,
-      "next": ["33"],
-      "stack": true
-    },
-    "33": {
-      "type": "InstructionStanza",
-      "text": 62,
-      "next": ["end"],
+      "text": 17,
+      "next": ["5"],
       "stack": true
     },
     "35": {
@@ -268,54 +197,54 @@
     },
     "45": {
       "type": "QuestionStanza",
-      "text": 63,
+      "text": 51,
       "answers": [10, 11],
       "next": ["46", "47"],
       "stack": false
     },
     "46": {
       "type": "InstructionStanza",
-      "text": 64,
+      "text": 52,
       "next": ["48"],
       "stack": true
     },
     "47": {
-      "type": "InstructionStanza",
-      "text": 45,
-      "next": ["end"],
+      "type": "QuestionStanza",
+      "text": 54,
+      "answers": [55, 56, 57],
+      "next": ["https://www.gov.uk/government/organisations/hm-revenue-customs/contact/vat-online-services-helpdesk", "https://www.gov.uk/contact-hmrc", "https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null"],
       "stack": true
     },
     "48": {
       "type": "InstructionStanza",
-      "text": 65,
+      "text": 53,
       "next": ["end"],
       "stack": true
     },
     "49": {
       "type": "InstructionStanza",
-      "text": 66,
+      "text": 58,
       "next": ["end"],
-      "link": 1,
+      "link": 0,
       "stack": true
     },
     "51": {
       "type": "InstructionStanza",
-      "text": 29,
+      "text": 31,
       "next": ["53"],
       "stack": true
     },
     "52": {
       "type": "InstructionStanza",
-      "text": 23,
+      "text": 25,
       "next": ["end"],
-      "link": 0,
       "stack": true
     },
     "53": {
       "type": "QuestionStanza",
-      "text": 30,
-      "answers": [31, 32],
-      "next": ["12", "13"],
+      "text": 32,
+      "answers": [33, 34],
+      "next": ["https://www.tax.service.gov.uk/ida/sa/login", "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal"],
       "stack": false
     },
     "54": {
@@ -326,16 +255,16 @@
     },
     "55": {
       "type": "InstructionStanza",
-      "text": 67,
+      "text": 59,
       "next": ["end"],
-      "link": 3,
+      "link": 1,
       "stack": true
     },
     "start": {
       "type": "QuestionStanza",
       "text": 0,
-      "answers": [1, 2, 3, 4, 5, 6],
-      "next": ["1", "49", "55", "20", "8", "45"],
+      "answers": [1, 2, 3, 4, 5],
+      "next": ["1", "49", "55", "8", "45"],
       "stack": false
     },
     "end": {
@@ -343,16 +272,13 @@
     }
   },
   "phrases": [
-    ["Ask the customer what is the reason they are unable to log in?", "Why are you having difficulties signing in?"], "Forgotten [glossary:user ID]", "Forgotten password", "Forgotten user ID and password", "Access code or identity verification problems", "Requested [glossary:user ID] by post not received ", "Other", ["Ask the customer which online HMRC service are they trying to access?", "Which online service are you trying to sign in to?"], "Self Assessment ", ["Ask the customer if they have their password?", "Do you have your password?"], "Yes", "No", ["Ask the customer what kind of account they have?", "What type of online account do you have?"], "[glossary:Individual] including personal tax account, tax credits, Self Assessment, and Child Benefit", "[glossary:Agent] including accountants, payroll bureau, and bookkeepers", "[glossary:Organisation] for example limited companies, partnerships, or charities", ["Ask the customer if they have their [glossary:UTR] number", "Do you have your Unique Taxpayer Reference (UTR) number?"],
-    ["Ask the customer how they would like their user ID reissued?", "How would you like your user ID re-issued?"], "Online", "By post", ["Tell the customer if they do not have the UTR number we need to transfer them to an advisor", "You will need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq] if you don't have your UTR number, you have changed your email address, or you have changed your postal address"],
+    ["Ask the customer what is the reason they are unable to log in?", "Why can't you sign in?"], "Forgotten [glossary:user ID]", "Forgotten password", "Forgotten user ID and password", "Not received user ID by post", "Another reason", ["Ask the customer which online HMRC service are they trying to access?", "Which online service are you trying to sign in to?"], "Self Assessment ", "Other", ["Ask the customer if they have their password?", "Do you have your password?"], "Yes", "No", ["Ask the customer what kind of account they have?", "What type of online account do you have?"], "[glossary:Individual] including personal tax account, tax credits, Self Assessment, and Child Benifit", "[glossary:Agent] including accountants, payroll bureau, and bookkeepers", "[glossary:Organisation] for example limited companies, partnerships, or charities", ["Ask the customer if they have their [glossary:UTR] number", "Do you have your Unique Taxpayer Reference (UTR) number?"], "If youâ€™ve already registered for Self Assessment and donâ€™t want to wait for replacements you can complete Self Assessment as an individual using GOV.UK Verify", ["Ask the customer how they would like their user ID reissued?", "How would you like your user ID re-issued?"], "Gov.UK Verify", "Online", "By post", ["Tell the customer if they do not have the UTR number we need to transfer them to an advisor", "You will need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq] if you don't have your UTR number, you've changed your email address or your postal address."],
     ["Tell the customer if they do not have their UTR or they have changed their email or postal address we need to transfer them to an advisor.", ""],
     ["Tell the customer if they have their password they can use our lost user ID service", "You can [link:recover your User ID online:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=agent]"],
     ["Tell the customer if they have their password they can use our lost user ID service for their Organisation account", "You can recover [link:recover your organisation's User ID online:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=organisation]"],
-    ["Ask the customer what type account they have?", "What type of online account do you have?"], "[glossary:Individual]", "[glossary:Agent]", "[glossary:Organisation]", ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. this will ask them a series of questions related to their financial history to confirm their ID", "If you need urgent access to your account you can use the [link:GOV.UK Verify:https://www.tax.service.gov.uk/ida/sa/login] service to sign in. If you've not registered to use this service, you'll need to give information from official documents and possibly answer some questions about your financial situation to verify your identity."],
-    ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. if they do not have these details to hand we can send their ID by post. ", "If you don't want to use GOV.UK Verify, we'll send your user ID by post which can take up to 7 working days (or longer if you live abroad). We'll send it to the address on your Self Assessment account"], "How do you want to get access to your account?", "Gov.uk Verify", "Post", ["Ask the customer how they would like to gain access to their account? Gov.uk Verify", "[link:Use GOV.UK Verify to sign in:https://www.signin.service.gov.uk/start]"],
-    ["Ask the customer how they would like to gain access to their account? by post", "[link:Request a user ID to be sent by post:https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=individual&service=self-assessment&contactMethod=postal]"],
-    ["Tell the customer as they have donâ€™t have their User I.D and Password they need to contact us.", "Because you don't have your user ID and password you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
-    ["Tell the customer if they do not have the UTR number ", "You'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
+    ["Ask the customer what type account they have?", "What type of online account do you have?"], "[glossary:Individual]", "[glossary:Agent]", "[glossary:Organisation]", ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. this will ask them a series of questions related to their financial history to confirm their ID", "If youâ€™ve already registered for Self Assessment and donâ€™t want to wait for replacements you can complete Self Assessment as an individual using GOV.UK Verify.\n"],
+    ["Tell the customer if they require urgent access to their account they can they use the [glossary:Gov.uk verify ] service. if they do not have these details to hand we can send their ID by post. ", "If you don't want to use GOV.UK Verify, we will send your user ID by post which can take up to 7 working days (or longer if you live abroad). We will send it to the address on your Self Assessment account"], "How do you want to get access to your account?", "Gov.uk Verify", "Post", ["Tell the customer as they have donâ€™t have their User I.D and Password they need to contact us.", "Because you don't have your user ID and password you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
+    ["Tell the customer if they do not have the UTR number ", "You will need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
     ["Tell the customer they will need to contact us", ""],
     ["Tell the customer we can transfer them to an advisor (OSH)", ""],
     ["Ask the customer if they are based in the United Kingdom", "Do you live in the UK?"],
@@ -364,49 +290,29 @@
     ["Tell the customer we need to transfer them to an advisor (OSH) ?", "You'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
     ["Tell the customer it can take up to 3 weeks to receive their user id by post if sent to a non UK address.", "It can take up to 3 weeks for you to receive your user ID by post if it was sent to an address outside the UK. "],
     ["Tell the customer to get back in touch if they do not receive the user ID after these times.", "Contact us if you haven't received your user ID after this time."],
-    ["Tell the customer they can register for SA with Gov.UK Verify", "If you've already registered for Self Assessment and don't want to wait for replacements you can complete Self Assessment as an individual using [link:GOV.UK Verify:https://www.tax.service.gov.uk/ida/sa/login]"],
+    ["Tell the customer they can register for SA with Gov.UK Verify", "If you've already registered for Self Assessment and don't want to wait for replacements you can complete Self Assessment as an individual using [link:GOV.UK Verify:https://www.tax.service.gov.uk/ida/sa/login]."],
     ["Ask the customer if they requested their user ID before [timescale:2 weeks:date_ago] ", "Did you request your user ID before [timescale:2 weeks:date_ago]?"],
     ["Tell the customer it can take up to 2 weeks to receive their user id by post if sent to a UK address.", "It can take up to 2 weeks for you to receive your user ID by post if it was sent to a UK address. "],
-    ["Ask the customer if they have received an [glossary:access code]?", "Have you received an [glossary:access code]?"],
-    ["Ask the customer what is the issue they are having", "Please select one of the following to tell us more about your problem"], "Error message after submitting the access code", "Difficulties with the identity verification", ["Tell the customer to select 'get help with this page' on the page that is displaying the error", "If you select the 'get help with this page' link on the page where you were having difficulties, you'll be able to report the problem. "],
-    ["Tell the customer they will hear back in 48 hours", "It can take us up to 48 hours to respond."], "Have you been able to enter your National Insurance number, name and date of birth and move to the next stage", ["Tell the customer we'll need to check the details we hold", "We need to check the details we hold you'll need to [link:speak to a webchat adviser:https://online.hmrc.gov.uk/webchatprod/templates/chat/hmrc7/chat.html?entryPointId=1004&templateName=hmrc7&languageCode=en&countryCode=US&ver=v11&eglvrefname=&null&referer=https%3A%2F%2Fonline.hmrc.gov.uk%2Fwebchatprod%2Fassistant%2Fbot%2FRuth%3Fask%3Dtrewq]"],
-    ["Tell the customer we can transfer them to an advisor (taxes)", ""],
-    ["Ask the customer if they have changed their phone number?", "Have you changed your phone number?"],
-    ["Tell the customer they can now update their phone number online", "If you no longer have the app or phone that you used to set up security you should select the link \"I can't get my access code\" from the access code screen."],
-    ["Tell the customer click the link under the access code box 'I don't have access to that phone'", ""],
     ["Ask the customer if they have tried to log in more than three times?", "Have you tried to sign in more than 3 times?"],
     ["Tell the customer if they have entered an incorrect password 3 times they will have been automatically locked out", "If you've entered your password incorrectly more than 3 times the system will lock you out. You'll have to wait 2 hours before you try and sign in to your account again."],
     ["Tell the customer if they have entered an incorrect password 3 times to allow 2 hours and then try logging into their account again.", ""],
-    ["Tell the customer they can complete a lost password form at GOV.UK", "Recover your password"],
+    ["Tell the customer we need to transfer them to an adviser", "You will need to speak to an adviser. Select one of the following:"], "VAT online services", "Problems verifying your identity or tax queries", "Sign in problems for all other services", ["Tell the customer they can complete a lost password form at GOV.UK", "Recover your password"],
     ["Tell the customer they need to complete the lost password and user ID form", "Recover your user ID and password"]
   ],
   "contacts": [],
   "howto": [],
   "links": [{
-    "dest": "https://online.hmrc.gov.uk/user/credentials/userid?affinityGroup=organisation",
-    "title": "lost User I.D service - organisation",
-    "window": true,
-    "leftbar": true,
-    "id": 0
-  }, {
     "dest": "https://www.tax.service.gov.uk/government-gateway-lost-credentials-frontend/choose-your-account?continue=%2Faccount&origin=unknown&forgottenOption=password",
     "title": "Lost password",
     "window": true,
     "leftbar": true,
-    "id": 1
-  }, {
-    "dest": "https://online.hmrc.gov.uk/user/credentials/userid",
-    "title": "Lost user id",
-    "window": true,
-    "leftbar": false,
-    "always": false,
-    "id": 2
+    "id": 0
   }, {
     "dest": "https://www.tax.service.gov.uk/government-gateway-lost-credentials-frontend/choose-your-account?continue=%2Fpersonal-account%2Fdo-uplift%3FredirectUrl%3D%252Fpersonal-account&origin=PERTAX&forgottenOption=UserIdAndPassword",
     "title": "Lost User ID & Password",
     "window": true,
     "leftbar": false,
     "always": false,
-    "id": 3
+    "id": 1
   }]
 }
