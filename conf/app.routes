@@ -1,12 +1,9 @@
 # microservice specific routes
 
-
-GET        /:id              @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelotBase(id, q: Option[String])
-GET        /:id/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(id, path, q: Option[String])
-
+GET        /ping/ping           @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ping.ping
 
 GET        /ocelot/:id              @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelotBase(id, q: Option[String])
 GET        /ocelot/:id/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(id, path, q: Option[String])
 
-GET        /ping/ping           @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ping.ping
-
+GET        /:id              @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelotBase(id, q: Option[String])
+GET        /:id/*path        @uk.gov.hmrc.ocelotexternalfrontend.controllers.Ocelot.ocelot(id, path, q: Option[String])
