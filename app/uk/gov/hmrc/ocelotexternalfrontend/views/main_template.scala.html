@@ -24,7 +24,7 @@
   scriptElem: Option[Html] = None)(mainContent: Html)(implicit request : Request[_], messages: Messages, appConfig: AppConfig)
 
 @import uk.gov.hmrc.play.views.html.layouts
-
+@import uk.gov.hmrc.ocelotexternalfrontend.views.html.helpers.ga
 
 @serviceInfoContent = {}
 
@@ -43,5 +43,5 @@
                mainContent = layouts.article(mainContent),
                serviceInfoContent = serviceInfoContent,
                navTitle = navTitle,
-               scriptElem = scriptElem
+               scriptElem = ga()
 )
