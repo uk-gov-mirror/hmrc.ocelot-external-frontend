@@ -5,3 +5,5 @@ link.nextButton = Continue
 
 app.PhaseBannerFeedback = This is a new service
 app.PhaseBannerFeedback.link = This is a new service - your <a href="{0}">feedback</a> will help us improve it.
+
+headding.noQuestion = Answer
