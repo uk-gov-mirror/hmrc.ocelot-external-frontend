@@ -67,8 +67,6 @@ class OcelotProcess(json: JsObject) {
 
   private val log: Logger = Logger(this.getClass)
 
-  // Parse the flow into a bunch of Stanza types
-
   def stanzasForPath(path: String): Seq[Stanza] = {
     val parts = for (s <- path.split("/") if s.matches("^\\d+$"))
       yield s.toInt

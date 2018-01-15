@@ -7,3 +7,7 @@ app.PhaseBannerFeedback = This is a new service
 app.PhaseBannerFeedback.link = This is a new service - your <a href="{0}">feedback</a> will help us improve it.
 
 heading.noQuestion = Answer
+
+
+title.prefix =
+title.suffix = gov.uk
