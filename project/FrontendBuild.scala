@@ -15,11 +15,11 @@ object FrontendBuild extends Build with MicroService {
     "uk.gov.hmrc" %% "govuk-template" % "5.15.0",
     "uk.gov.hmrc" %% "play-ui" % "7.8.0",
     ws,
-    "uk.gov.hmrc" %% "bootstrap-play-25" % "1.0.0",
+    "uk.gov.hmrc" %% "bootstrap-play-25" % "1.3.0",
     "com.lihaoyi" %% "scalatags" % "0.6.7"
   )
 
-  def test(scope: String = "test") = Seq(
+  def test(scope: String = "test"): Seq[ModuleID] = Seq(
     "uk.gov.hmrc" %% "hmrctest" % "3.0.0" % scope,
     "org.scalatest" %% "scalatest" % "2.2.6" % scope,
     "org.pegdown" % "pegdown" % "1.6.0" % scope,
