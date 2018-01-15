@@ -113,7 +113,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val title = html.head.getElementsByTag("title")
 
       assert(title.size == 1)
-      assert(title.get(0).text ==  "Do you have a tea bag? &en; gov.uk")
+      assert(title.get(0).text ==  "Do you have a tea bag? " + messages("general.endash") + " " + messages("title.suffix"))
     }
   }
 

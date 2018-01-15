@@ -52,7 +52,7 @@
         messages("title.suffix")
     )
             .filter(_ != "")
-            .mkString(" &en; ")
+            .mkString(" " + messages("general.endash") + " ")
 }
 
 @main_template(title = getTitle, navTitle = Some(process.title)) {

@@ -11,3 +11,5 @@ heading.noQuestion = Answer
 
 title.prefix =
 title.suffix = gov.uk
+
+general.endash = \u2013
