@@ -59,7 +59,7 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
           Future.successful(Ok(views.html.ocelot(stanzas, targetPath, id)))
         }
       } else {
-        Future.successful(NotFound("Process not found"))
+        Future.successful(NotFound(views.html.error_template("Process not found", "Process not found", "We could not find the process you're looking for")))
       }
     }
   }
