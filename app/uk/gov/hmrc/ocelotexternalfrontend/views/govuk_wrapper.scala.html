@@ -65,9 +65,10 @@
 
 @serviceInfo = {
     @uiLayouts.serviceInfo(
-      betaBanner = phaseBanner("ALPHA"),
+      betaBanner = HtmlFormat.empty,
       includeGridWrapper = false,
-      serviceInfoContent = Some(serviceInfoContent))
+      serviceInfoContent = Some(serviceInfoContent),
+      includeHMRCBranding = false)
 }
 
 @mainContentHeader = {
