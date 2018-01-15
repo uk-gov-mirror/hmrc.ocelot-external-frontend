@@ -105,6 +105,16 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val home = html.select(".home")
       assert(home.size == 0)
     }
+
+    "set the title" in {
+      val result = controller.ocelot("oct90001", "/", None).apply(fakeRequest)
+      val html = Jsoup.parse(contentAsString(result))
+
+      val title = html.head.getElementsByTag("title")
+
+      assert(title.size == 1)
+      assert(title.get(0).text ==  "Do you have a tea bag? &en; gov.uk")
+    }
   }
 
   "GET /0" should {
@@ -190,5 +200,4 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
     }
   }
-
 }
