@@ -75,7 +75,7 @@ class OcelotProcessSpec extends UnitSpec {
     }
 
     "Get stanzas for a longer path (left)" in {
-      val path = "/0"
+      val path = "/yes"
       val stanzas = process.stanzasForPath(path)
 
       assert(stanzas.length == 2)
@@ -84,7 +84,7 @@ class OcelotProcessSpec extends UnitSpec {
     }
 
     "Get stanzas for a longer path (right)" in {
-      val path = "/1"
+      val path = "/no"
       val stanzas = process.stanzasForPath(path)
 
       assert(stanzas.length == 1)
@@ -135,10 +135,24 @@ class OcelotProcessSpec extends UnitSpec {
     }
 
     "Give an external link stanza for a path that needs it" in {
-      val stanzas = process.stanzasForPath("/1/0")
+      val stanzas = process.stanzasForPath("/no/external-link")
      // stanzas.length shouldBe 1
       stanzas.head shouldBe a[ExternalLinkStanza]
     }
 
+    "Get the index of a phrase" in {
+      process.getPhraseIndex("Yes") shouldBe 2
+      // case insensitive
+      process.getPhraseIndex("yes") shouldBe 2
+    }
+
+    "Handle an incorrect phrase correctly" in {
+      process.getPhraseIndex("Bogus") shouldBe -1
+      process.getPhraseIndex("") shouldBe -1
+    }
+
+    "supply a squished prhase" in {
+      process.getSquishedPhrase(0) shouldBe "test-process"
+    }
   }
 }

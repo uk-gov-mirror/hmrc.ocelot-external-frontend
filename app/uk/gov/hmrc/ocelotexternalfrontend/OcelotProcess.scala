@@ -19,18 +19,23 @@ package uk.gov.hmrc.ocelotexternalfrontend
 import play.api.Logger
 import play.api.libs.json.{JsArray, JsObject, JsString, JsValue}
 import play.twirl.api.Html
+import scalatags.Text.all._
 import uk.gov.hmrc.ocelotexternalfrontend.types._
 
 import scala.collection.mutable.ListBuffer
-import scalatags.Text
-import scalatags.Text.all._
 
+/**
+  * Holds the process data
+  *
+  * @param json a JsObject to build the process from
+  */
 
 class OcelotProcess(json: JsObject) {
+  def getSquishedPhrase(id: Int) : String = squish(getPhrase(id))
+
 
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
-
   val links: Seq[Link] = {
     val raw = (json \ "links").asOpt[List[JsObject]]
 
@@ -42,7 +47,6 @@ class OcelotProcess(json: JsObject) {
       List[Link]()
     }
   }
-
   val flow: Map[String, Stanza] = (for (f <- (json \ "flow").as[JsObject].fields)
     yield {
       val id = f._1
@@ -57,32 +61,46 @@ class OcelotProcess(json: JsObject) {
       }
       id -> stanza
     }).toMap
-
   val phrases: Seq[Seq[String]] = for (v <- (json \ "phrases").as[List[JsValue]])
     yield v match {
       case _: JsString => Vector[String](v.as[String])
       case _: JsArray => v.as[Vector[String]]
       case _: Any => throw new IllegalArgumentException("Unexpected json type")
     }
-
   private val log: Logger = Logger(this.getClass)
 
+  def getPhraseIndex(phrase: String): Int = {
+    val squished = squish(phrase)
+
+    for ((p, i) <- phrases.zipWithIndex) {
+      for (pp <- p) {
+        if (squish(pp).equals(squished)) {
+          return i
+        }
+      }
+    }
+    -1
+  }
+
+  private def squish(text: String): String = text.toLowerCase.replaceAll("[^a-z]+", "-")
+
   def stanzasForPath(path: String): Seq[Stanza] = {
-    val parts = for (s <- path.split("/") if s.matches("^\\d+$"))
-      yield s.toInt
-
+    val parts = for (part <- path.split("/") if part.length > 0)
+        yield part
     var index = 0
-
     var result = ListBuffer[Stanza]()
-
     var stanza = getStanza("start")
 
+
+
+    log.debug("path: " + path + ", Parts length: " + parts.length)
+
     while (true) {
+      log.debug("Top of loop: index = " + index)
       result += stanza
       if (stanza.isTerminal) {
         // If we've got nowhere left to go, then return what we've got
         return result
-        //      } else if (stanza.next.length == 1) {
       } else if (!stanza.isQuestion) {
         // Exactly one route out. Get the next stanza
         stanza = getStanza(stanza.next.head)
@@ -90,9 +108,16 @@ class OcelotProcess(json: JsObject) {
         if (index < parts.length) {
           // Still working through the input from the user
 
-          if (parts(index) >= 0 && parts(index) < stanza.next.length) {
+          // This might need updating if we get new stanza types
+          val question = stanza.asInstanceOf[QuestionStanza]
+
+          log.debug("part:" + parts(index) + ", phraseindex: " + getPhraseIndex(parts(index)))
+
+          val i = question.getAnswerById(getPhraseIndex(parts(index)))
+
+          if (i >= 0 && i < stanza.next.length) {
             // Valid answer. Get the next stanza
-            stanza = getStanza(stanza.next(parts(index)))
+            stanza = getStanza(stanza.next(i))
             result.clear()
             index += 1
           } else {
@@ -116,15 +141,15 @@ class OcelotProcess(json: JsObject) {
 
     id match {
       case idRe(_) => flow(id)
-      case _ => new ExternalLinkStanza(id,id)
+      case _ => new ExternalLinkStanza(id, id)
     }
   }
 
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
-  def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
-
   def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
+
+  def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
 
   def getInternalHTML(stanza: Stanza): Html = Html.apply(PlaceholderManager.convert(getPhrase(stanza.text)).toString)
 

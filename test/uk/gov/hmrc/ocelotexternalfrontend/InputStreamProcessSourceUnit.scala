@@ -33,7 +33,7 @@ class InputStreamProcessSourceUnit extends UnitSpec {
     "cope with a bigger process" in {
       val process = new InputStreamProcessSource().get(getClass.getResourceAsStream("/processes/oct90001.json"))
 
-      val stanzas = process.stanzasForPath("/0/0")
+      val stanzas = process.stanzasForPath("/yes-they-do-have-a-tea-bag/yes-they-do-have-a-cup")
 
 
       assert(stanzas.length == 1)

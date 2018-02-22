@@ -31,7 +31,7 @@
             @for((answerId, i) <- stanza.answers.zipWithIndex) {
 
                 <div class="multiple-choice">
-                    <input type='radio' name="q" value="@i" id="q-@i">
+                    <input type='radio' name="q" value="@process.getSquishedPhrase(answerId)" id="q-@i">
 
                     <label for="q-@i">
                     @process.getPhraseHtml(answerId)

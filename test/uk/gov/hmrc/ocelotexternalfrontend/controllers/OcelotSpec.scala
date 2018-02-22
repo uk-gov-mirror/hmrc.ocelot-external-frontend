@@ -89,8 +89,8 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
 
       val inputs = html.select("input[type=radio]")
       assert(inputs.size() == 2)
-      assert(inputs.get(0).attr("value") == "0")
-      assert(inputs.get(1).attr("value") == "1")
+      assert(inputs.get(0).attr("value") == "yes-they-do-have-a-tea-bag")
+      assert(inputs.get(1).attr("value") == "no-they-do-not-have-a-tea-bag")
 
       val labels = html.select(".question label")
       assert(labels.size() == 2)
@@ -117,16 +117,16 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
   }
 
-  "GET /0" should {
+  "GET /yes-they-do-have-a-tea-bag" should {
     "render another question" in {
-      val result = controller.ocelot("oct90001", "/0", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/yes-they-do-have-a-tea-bag", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.select(".question .prompt").text() == "Do you have a cup?")
     }
 
     "render the correct back link" in {
-      val result = controller.ocelot("oct90001", "/0", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/yes-they-do-have-a-tea-bag", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val back = html.select(".link-back")
@@ -136,20 +136,20 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
   }
 
-  "GET /?q=0" should {
+  "GET /?q=yes-they-do-have-a-tea-bag" should {
 
-    "render the same as /0" in {
-      val result = controller.ocelot("oct90001", "/0", None).apply(fakeRequest)
+    "render the same as /yes-they-do-have-a-tea-bag" in {
+      val result = controller.ocelot("oct90001", "/", Some("yes-they-do-have-a-tea-bag")).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       assert(html.select(".question .prompt").text() == "Do you have a cup?")
     }
   }
 
-  "GET /1" should {
+  "GET /no-they-do-not-have-a-tea-bag" should {
     "end the process" in {
 
-      val result = controller.ocelot("oct90001", "/1", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/no-they-do-not-have-a-tea-bag", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val instructions = html.select(".instruction")
@@ -160,7 +160,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
 
     "include a link back to the start" in {
-      val result = controller.ocelot("oct90001", "/1", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/no-they-do-not-have-a-tea-bag", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val home = html.select(".home")
@@ -169,9 +169,9 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
   }
 
-  "GET /2" should {
+  "GET /maybe-we-ve-got-a-teabag" should {
     "fail gracefully" in {
-      val result = controller.ocelot("oct90001", "/2", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/maybe-we-ve-got-a-teabag", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val terminal = html.select(".terminal")
@@ -179,21 +179,21 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
     }
   }
 
-  "GET /0/0" should {
+  "GET /yes-they-do-have-a-tea-bag/yes-they-do-have-a-cup" should {
     "have the right back link" in {
-      val result = controller.ocelot("oct90001", "/0/0", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90001", "/yes-they-do-have-a-tea-bag/yes-they-do-have-a-cup", None).apply(fakeRequest)
       val html = Jsoup.parse(contentAsString(result))
 
       val back = html.select(".link-back")
 
       assert(back.size() == 1)
-      assert(back.get(0).attr("href") == "/ocelot-external-frontend/oct90001/0")
+      assert(back.get(0).attr("href") == "/ocelot-external-frontend/oct90001/yes-they-do-have-a-tea-bag")
     }
   }
 
-  "GET /oct90003/0" should {
+  "GET /oct90003/test-answer" should {
     "Give a redirect" in {
-      val result = controller.ocelot("oct90003", "/0", None).apply(fakeRequest)
+      val result = controller.ocelot("oct90003", "/test-answer", None).apply(fakeRequest)
 
       status(result) shouldBe Status.FOUND
       header("Location", result) shouldBe Some("https://gov.uk/")

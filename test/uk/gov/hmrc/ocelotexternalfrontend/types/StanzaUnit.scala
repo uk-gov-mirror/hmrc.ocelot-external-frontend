@@ -52,6 +52,13 @@ class StanzaUnit extends UnitSpec {
       assert(stanza.answers.length == 2)
       assert(stanza.answer(0) == 2)
     }
+
+    "get an answer index from phrase id" in {
+      val stanza = new QuestionStanza("test", questionJson)
+
+      stanza.getAnswerById(2) shouldBe 0
+      stanza.getAnswerById(1) shouldBe -1
+    }
   }
 
   "An instruction stanza" should {

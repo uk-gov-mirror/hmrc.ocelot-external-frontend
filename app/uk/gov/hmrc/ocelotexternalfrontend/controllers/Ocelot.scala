@@ -51,8 +51,8 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
         val stanzas = process.stanzasForPath(targetPath)
 
         if (stanzas.length == 1 && stanzas.head.kind == "externalLink") {
-          log.info(s"")
           val extLink: ExternalLinkStanza = stanzas.head.asInstanceOf[ExternalLinkStanza]
+          log.info(s"Bouncing")
           Future.successful(Redirect(extLink.href, FOUND))
         } else {
           log.info(s"Handling request for $targetPath")

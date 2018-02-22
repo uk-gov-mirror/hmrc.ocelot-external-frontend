@@ -43,6 +43,8 @@ class InstructionStanza(id: String, json: JsObject) extends Stanza(id, json) {
 }
 
 class QuestionStanza(id: String, json: JsObject) extends Stanza(id, json) {
+  def getAnswerById(id: Int):Int = answers.indexOf(id)
+
   override val isQuestion: Boolean = true
   override val text: Int = (json \ "text").as[Int]
   override val next: Seq[String] = (json \ "next").as[List[String]]
