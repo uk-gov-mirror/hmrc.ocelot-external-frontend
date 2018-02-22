@@ -79,12 +79,8 @@ class OcelotProcess(json: JsObject) {
     var result = ListBuffer[Stanza]()
     var stanza = getStanza("start")
 
-
-    log.debug("path: " + path + ", Parts length: " + parts.length)
-
     while (true) {
-      log.debug("Top of loop: index = " + index)
-      result += stanza
+     result += stanza
       if (stanza.isTerminal) {
         // If we've got nowhere left to go, then return what we've got
         return result
@@ -97,8 +93,6 @@ class OcelotProcess(json: JsObject) {
 
           // This might need updating if we get new stanza types
           val question = stanza.asInstanceOf[QuestionStanza]
-
-          log.debug("part:" + parts(index) + ", phraseindex: " + getPhraseIndex(parts(index)))
 
           val i = question.getAnswerById(getPhraseIndex(parts(index)))
 

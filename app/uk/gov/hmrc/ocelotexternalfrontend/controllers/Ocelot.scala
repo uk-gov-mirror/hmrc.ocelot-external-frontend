@@ -54,7 +54,6 @@ class Ocelot @Inject()(val messagesApi: MessagesApi, implicit val appConfig: App
           log.info(s"Bouncing")
           Future.successful(Redirect(extLink.href, FOUND))
         } else {
-          log.info(s"Handling request for $targetPath")
           Future.successful(Ok(views.html.ocelot(stanzas, targetPath, id)))
         }
       } else {
