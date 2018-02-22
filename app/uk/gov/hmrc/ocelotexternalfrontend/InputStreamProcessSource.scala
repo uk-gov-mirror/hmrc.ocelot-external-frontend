@@ -22,6 +22,6 @@ import play.api.libs.json.{JsObject, Json}
 
 class InputStreamProcessSource {
 
-  def get(in: InputStream) : OcelotProcess = new OcelotProcess(Json.parse(in).as[JsObject])
+  def get(in: InputStream): OcelotProcess = new OcelotProcess(Json.parse(in).as[JsObject])
 
 }

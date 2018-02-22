@@ -17,12 +17,11 @@
 package uk.gov.hmrc.ocelotexternalfrontend.config
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.i18n.MessagesApi
 import play.api.mvc.Request
 import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
 import uk.gov.hmrc.ocelotexternalfrontend.views
+import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
 
 @Singleton
 class ErrorHandler @Inject()(val messagesApi: MessagesApi, implicit val appConfig: AppConfig) extends FrontendErrorHandler {

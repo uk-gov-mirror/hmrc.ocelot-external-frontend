@@ -68,6 +68,10 @@ class OcelotProcess(json: JsObject) {
 
   def getSquishedPhrase(id: Int): String = squish(getPhrase(id))
 
+  private def squish(text: String): String = text.trim.toLowerCase.replaceAll("[^a-z]+", "-")
+
+  def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
+
   def stanzasForPath(path: String): Seq[Stanza] = {
     val parts = for (part <- path.split("/") if part.length > 0)
       yield part
@@ -132,8 +136,6 @@ class OcelotProcess(json: JsObject) {
     -1
   }
 
-  private def squish(text: String): String = text.trim.toLowerCase.replaceAll("[^a-z]+", "-")
-
   def getStanza(id: String): Stanza = {
     val idRe = """^(start|end|\d+)$""".r
 
@@ -146,8 +148,6 @@ class OcelotProcess(json: JsObject) {
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
   def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
-
-  def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 
   def getInternalHTML(stanza: Stanza): Html = Html.apply(PlaceholderManager.convert(getPhrase(stanza.text)).toString)
 

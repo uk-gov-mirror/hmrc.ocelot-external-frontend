@@ -25,8 +25,6 @@ import play.api.{Configuration, Environment, Logger}
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-import scala.util.Success
-
 
 class OcelotSpec extends UnitSpec with WithFakeApplication {
 
@@ -113,7 +111,7 @@ class OcelotSpec extends UnitSpec with WithFakeApplication {
       val title = html.head.getElementsByTag("title")
 
       assert(title.size == 1)
-      assert(title.get(0).text ==  "Do you have a tea bag? " + messages("general.endash") + " " + messages("title.suffix"))
+      assert(title.get(0).text == "Do you have a tea bag? " + messages("general.endash") + " " + messages("title.suffix"))
     }
   }
 

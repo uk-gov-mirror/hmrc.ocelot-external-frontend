@@ -17,7 +17,6 @@
 package uk.gov.hmrc.ocelotexternalfrontend.controllers
 
 import javax.inject.Inject
-
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.ocelotexternalfrontend.config.AppConfig

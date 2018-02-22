@@ -21,14 +21,12 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 import play.api.Logger
-
 import scalatags.Text.all._
 
 object PlaceholderManager {
 
-  private val log = Logger(PlaceholderManager.getClass)
-
   val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM YYYY")
+  private val log = Logger(PlaceholderManager.getClass)
 
   def convert(in: String): StringBuilder = {
     val result = new StringBuilder()
