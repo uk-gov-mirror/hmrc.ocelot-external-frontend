@@ -31,9 +31,6 @@ import scala.collection.mutable.ListBuffer
   */
 
 class OcelotProcess(json: JsObject) {
-  def getSquishedPhrase(id: Int) : String = squish(getPhrase(id))
-
-
   val title: String = (json \ "meta" \ "title").as[String]
   val id: String = (json \ "meta" \ "id").as[String]
   val links: Seq[Link] = {
@@ -69,28 +66,14 @@ class OcelotProcess(json: JsObject) {
     }
   private val log: Logger = Logger(this.getClass)
 
-  def getPhraseIndex(phrase: String): Int = {
-    val squished = squish(phrase)
-
-    for ((p, i) <- phrases.zipWithIndex) {
-      for (pp <- p) {
-        if (squish(pp).equals(squished)) {
-          return i
-        }
-      }
-    }
-    -1
-  }
-
-  private def squish(text: String): String = text.toLowerCase.replaceAll("[^a-z]+", "-")
+  def getSquishedPhrase(id: Int): String = squish(getPhrase(id))
 
   def stanzasForPath(path: String): Seq[Stanza] = {
     val parts = for (part <- path.split("/") if part.length > 0)
-        yield part
+      yield part
     var index = 0
     var result = ListBuffer[Stanza]()
     var stanza = getStanza("start")
-
 
 
     log.debug("path: " + path + ", Parts length: " + parts.length)
@@ -136,6 +119,21 @@ class OcelotProcess(json: JsObject) {
     throw new IllegalStateException("Should not be able to get here")
   }
 
+  def getPhraseIndex(phrase: String): Int = {
+    val squished = squish(phrase)
+
+    for ((p, i) <- phrases.zipWithIndex) {
+      for (pp <- p) {
+        if (squish(pp).equals(squished)) {
+          return i
+        }
+      }
+    }
+    -1
+  }
+
+  private def squish(text: String): String = text.trim.toLowerCase.replaceAll("[^a-z]+", "-")
+
   def getStanza(id: String): Stanza = {
     val idRe = """^(start|end|\d+)$""".r
 
@@ -147,9 +145,9 @@ class OcelotProcess(json: JsObject) {
 
   def getInternalText(stanza: Stanza): String = getPhrase(stanza.text)
 
-  def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
-
   def getExternalText(stanza: Stanza): String = getPhrase(stanza.text, webchat = true)
+
+  def getPhrase(id: Int, webchat: Boolean = false): String = if (webchat) phrases(id).last else phrases(id).head
 
   def getInternalHTML(stanza: Stanza): Html = Html.apply(PlaceholderManager.convert(getPhrase(stanza.text)).toString)
 
